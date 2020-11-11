@@ -2,16 +2,21 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
+NUM_CANDADOS = 100000
+NUM_DIG_CONTRA = 4
+
+
 #Fuerza bruta
 intento = 0
 candado = 0
 intentos = []
 
+aux = 10**NUM_DIG_CONTRA
 
-while candado < 100000:
-    contraseña = np.random.randint(9999)
+while candado < NUM_CANDADOS:
+    contraseña = np.random.randint(aux-1)
     
-    while intento != 10000:
+    while intento != aux:
         if intento == contraseña:
             intentos.append(intento)
             intento = 0
@@ -19,7 +24,7 @@ while candado < 100000:
         intento += 1  
     candado +=1
 
-frec, bins = np.histogram(intentos, range=(0, 10000), bins=1000)
+frec, bins = np.histogram(intentos, range=(0, aux), bins=1000)
 print(frec)  
 #%%
 #Graficos 
