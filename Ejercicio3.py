@@ -1,3 +1,4 @@
+from BusquedaRaices.py impoty
 import numpy as np
 import sys
 
@@ -15,10 +16,18 @@ for i in padrones:
 s=aux
 porcentaje = s / (n * 9.5)
 
-def V(x) :return np.pi * x**2 (3* Radio - x) / 3
+def V(x):
+    return np.pi * x**2 (3* Radio - x) / 3
 
-def f(x): return V(x) - ( V(2*Radio) * porcentaje )
+def f1(x): 
+    return V(x) - ( V(2*Radio) * porcentaje )
 
-def f_prima(x) : return (np.pi * 2 * x * (3* Radio - x) / 3) -(np.pi * x **2 / 3)
+def f2(x): 
+    return V(x) - V(2*Radio) 
 
+def f_prima(x): 
+    return x * np.pi * (2 * Radio - x)
+
+def f_segunda(x):
+    return 2 * np.pi * (Radio - x)
 
