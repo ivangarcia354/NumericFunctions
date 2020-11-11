@@ -154,3 +154,44 @@ funcion = f4
 print("El valor de la raiz es:{0} +- {1}".format(raiz,error))
 print("El valor de la función en la aproximación a la raiz es: ",funcion(raiz))
 
+#%%
+#Newton-Rhapson
+    
+def p(t):
+    return (t-3)*(t+5)
+
+def p_prima(t):
+    return 2*t+2
+
+iteracion = 0
+semilla = -0.9
+error = 1
+
+while error > 0.00001:
+    iteracion += 1
+    raiz = semilla - p(semilla)/p_prima(semilla)
+    error = np.abs(raiz - semilla)
+    semilla = raiz
+    print(iteracion, raiz, error)
+    
+
+#%%
+#Newton-Raphson Mod
+def p(t):
+    return np.e**t -t -1
+def p_prima(t):
+    return np.e**t -1
+def p_segunda(t):
+    return np.e**t
+
+iteracion = 0
+semilla = 1
+error = 1
+
+while error > 0.00001:
+    iteracion += 1
+    raiz = semilla - (p(semilla)*p_prima(semilla))/((p_prima(semilla))**2 - p(semilla)*p_segunda(semilla))
+    error = np.abs(raiz - semilla)
+    semilla = raiz
+    print(iteracion, raiz, error)
+  
