@@ -2,10 +2,13 @@ import numpy as np
 import sys
 
 MSG_ERROR_COTAS="Error de selección de cotas"
+COTA_ERROR = 0.00001
 
 min_error = float(input("inserte el error "))
 lim_sup = float(input("inserte un límite superior "))
 lim_inf = float(input("inserte un límite inferior "))
+
+
 
 
 def f1(x): return 0.25*x**2 - np.sin(x)
@@ -27,7 +30,7 @@ def round_up(n, decimals):
 
 def pn(a,b): return (b+a)/2
 
-def RaizBinomial(funcion,lim_inf,lim_sup,min_error):
+def RaizBinomial(funcion, lim_inf, lim_sup, min_error):
   
     if funcion(lim_inf)*funcion(lim_sup) >=0:  
         print(MSG_ERROR_COTAS) 
@@ -68,7 +71,7 @@ def RaizBinomial(funcion,lim_inf,lim_sup,min_error):
 --------------------------------------------------------------------------------
 """
 
-def RaizSecante(funcion,lim_inf,lim_sup,min_error): 
+def RaizSecante(funcion, lim_inf, lim_sup, min_error): 
     
     (semilla,cota) = RaizBinomial(funcion,lim_inf,lim_sup,0.02)
     
@@ -109,9 +112,9 @@ def RaizSecante(funcion,lim_inf,lim_sup,min_error):
 
 def g(x) : return (funcion(x) + x)
 
-def RaizPF(funcion,lim_inf,lim_sup,min_error): 
+def RaizPF(funcion, lim_inf, lim_sup, min_error): 
     
-    (semilla,cota) = RaizBinomial(funcion,lim_inf,lim_sup,0.02)
+    (semilla, cota) = RaizBinomial(funcion, lim_inf, lim_sup, 0.02)
     lim_sup = semilla + cota
     lim_inf = semilla - cota
     p = semilla
@@ -122,22 +125,22 @@ def RaizPF(funcion,lim_inf,lim_sup,min_error):
     aux = p_next - p
     
     i=1
-    print(i,"°  ",p_next)
+    print(i, "°  ", p_next)
     
     while abs(aux) > min_error:
     
       p_next = g(p)
       aux = (p_next - p)
       p = p_next
-      i+=1
-      print(i,"°  ",p_next)
+      i += 1
+      print(i, "°  ", p_next)
     
-    print("\nSe hicieron",i,"iteraciones con el método del Punto Fijo\n")
+    print("\nSe hicieron", i, "iteraciones con el método del Punto Fijo\n")
     
     num_dig_error = int(np.ceil(abs(np.log10(min_error))))   
-    raiz=np.round(p_next, num_dig_error) 
-    error=round_up(abs(aux),num_dig_error)
-    return raiz,error
+    raiz = np.round(p_next, num_dig_error) 
+    error = round_up(abs(aux),num_dig_error)
+    return raiz, error
 
 
 """-------------------------------------------------------------------------------"""
@@ -147,29 +150,29 @@ funcion = f4
 
 #(raiz,error)=RaizBinomial(funcion, lim_inf, lim_sup, min_error)
 
-(raiz,error)=RaizSecante(funcion, lim_inf, lim_sup, min_error)
+(raiz,error) = RaizSecante(funcion, lim_inf, lim_sup, min_error)
 
 #(raiz,error)=RaizPF(funcion, lim_inf, lim_sup, min_error)
 
 print("El valor de la raiz es:{0} +- {1}".format(raiz,error))
-print("El valor de la función en la aproximación a la raiz es: ",funcion(raiz))
+print("El valor de la función en la aproximación a la raiz es: ", funcion(raiz))
 
 #%%
 #Newton-Rhapson
     
 def p(t):
-    return (t-3)*(t+5)
+    return (t - 3) * (t + 5)
 
 def p_prima(t):
-    return 2*t+2
+    return 2 * t + 2
 
 iteracion = 0
 semilla = -0.9
 error = 1
 
-while error > 0.00001:
+while error > COTA_ERROR:
     iteracion += 1
-    raiz = semilla - p(semilla)/p_prima(semilla)
+    raiz = semilla - p(semilla) / p_prima(semilla)
     error = np.abs(raiz - semilla)
     semilla = raiz
     print(iteracion, raiz, error)
@@ -180,7 +183,7 @@ while error > 0.00001:
 def p(t):
     return np.e**t -t -1
 def p_prima(t):
-    return np.e**t -1
+    return np.e**t - 1
 def p_segunda(t):
     return np.e**t
 
@@ -188,9 +191,9 @@ iteracion = 0
 semilla = 1
 error = 1
 
-while error > 0.00001:
+while error > COTA_ERROR:
     iteracion += 1
-    raiz = semilla - (p(semilla)*p_prima(semilla))/((p_prima(semilla))**2 - p(semilla)*p_segunda(semilla))
+    raiz = semilla - (p(semilla)*p_prima(semilla)) / ((p_prima(semilla))**2 - p(semilla) * p_segunda(semilla))
     error = np.abs(raiz - semilla)
     semilla = raiz
     print(iteracion, raiz, error)
