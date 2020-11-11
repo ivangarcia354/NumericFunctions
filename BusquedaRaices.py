@@ -30,7 +30,7 @@ def round_up(n, decimals):
 
 def pn(a,b): return (b+a)/2
 
-def RaizBinomial(funcion, lim_inf, lim_sup, min_error):
+def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
   
     if funcion(lim_inf)*funcion(lim_sup) >=0:  
         print(MSG_ERROR_COTAS) 
@@ -73,7 +73,7 @@ def RaizBinomial(funcion, lim_inf, lim_sup, min_error):
 
 def RaizSecante(funcion, lim_inf, lim_sup, min_error): 
     
-    (semilla,cota) = RaizBinomial(funcion,lim_inf,lim_sup,0.02)
+    (semilla,cota) = RaizBiseccion(funcion,lim_inf,lim_sup,0.02)
     
     lim_sup = semilla + cota
     lim_inf = semilla - cota
@@ -97,11 +97,11 @@ def RaizSecante(funcion, lim_inf, lim_sup, min_error):
       print(i+1,"°  ",p)
       i+=1
     
-    print("\nSe hicieron",i,"iteraciones con el método de la secante\n")
+    print("\nSe hicieron", i, "iteraciones con el método de la secante\n")
     
     num_dig_error = int(np.ceil(abs(np.log10(min_error))))   
-    raiz=np.round(p, num_dig_error) 
-    error=round_up(abs(aux),num_dig_error)
+    raiz = np.round(p, num_dig_error) 
+    error = round_up(abs(aux),num_dig_error)
     
     return raiz,error
 
@@ -114,7 +114,7 @@ def g(x) : return (funcion(x) + x)
 
 def RaizPF(funcion, lim_inf, lim_sup, min_error): 
     
-    (semilla, cota) = RaizBinomial(funcion, lim_inf, lim_sup, 0.02)
+    (semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
     lim_sup = semilla + cota
     lim_inf = semilla - cota
     p = semilla
@@ -193,8 +193,51 @@ error = 1
 
 while error > COTA_ERROR:
     iteracion += 1
-    raiz = semilla - (p(semilla)*p_prima(semilla)) / ((p_prima(semilla))**2 - p(semilla) * p_segunda(semilla))
+    raiz = semilla - (p(semilla) * p_prima(semilla)) / ((p_prima(semilla))**2 - p(semilla) * p_segunda(semilla))
     error = np.abs(raiz - semilla)
     semilla = raiz
     print(iteracion, raiz, error)
-  
+
+def RaizNrmodifcado(funcion, lim_inf, lim_sup, min_error): 
+    
+    (semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
+    
+    lim_sup = semilla + cota
+    lim_inf = semilla - cota
+    p = semilla
+    
+    print("Iteraciones del método de la secante\n")
+    
+    #las varibles lim_sup,lim_inf y p están para luego analizar bien las condiciones necesarias para el uso del NR modificado
+    p_n_2 = lim_sup 
+    p_n_1 = p
+    aux = p_n_1 - p_n_2
+    
+    i=1
+    print(i, "°  ", p)
+    
+    def p(t):
+        return np.e**t -t -1
+    def p_prima(t):
+        return np.e**t - 1
+    def p_segunda(t):
+        return np.e**t
+
+iteracion = 0
+
+
+while cota > COTA_ERROR:
+    iteracion += 1
+    raiz = semilla - (p(semilla) * p_prima(semilla)) / ((p_prima(semilla))**2 - p(semilla) * p_segunda(semilla))
+    cota = np.abs(raiz - semilla)
+    semilla = raiz
+    
+
+    
+print("\nSe hicieron", iteracion, "iteraciones con el método de NR Mejorado\n")
+    
+num_dig_error = int(np.ceil(abs(np.log10(min_error))))   
+raiz = np.round(p, num_dig_error) 
+error = round_up(abs(aux), num_dig_error)
+    
+return raiz, error  
