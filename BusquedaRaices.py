@@ -21,9 +21,7 @@ def f2(x) : return np.exp(x/4) - x
 def f3(x) : return 1 - x - np.exp( -2*x )
 #cotas de f3: 2° raiz: max=1,min=0.5
 
-def f4(x) :
-    R = 4.25
-    return np.pi * x**2 (3*R - x) / 3
+def f4(x) : return np.pi * (-1/3 *x**3 + 3*x**2 - 126/5)
 #cotas de f4: max=5,min=1
 
 def round_up(n, decimals):
