@@ -1,4 +1,4 @@
-from BusquedaRaices.py impoty
+import BusquedaRaices as br
 import numpy as np
 import sys
 
@@ -31,3 +31,5 @@ def f_prima(x):
 def f_segunda(x):
     return 2 * np.pi * (Radio - x)
 
+(uno, dos) = br.RaizBiseccion(f1, 5, 8, 0.02)
+print(uno, dos)
