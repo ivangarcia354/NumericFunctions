@@ -1,6 +1,5 @@
 import BusquedaRaices as br
 import numpy as np
-import sys
 
 padrones=103887,104181,103839,104606
 Radio = 4.25
@@ -16,20 +15,26 @@ for i in padrones:
 s=aux
 porcentaje = s / (n * 9.5)
 
-def V(x):
-    return np.pi * x**2 (3* Radio - x) / 3
+def V(x):  return np.pi * x** 2 *(3* Radio - x) / 3
 
-def f1(x): 
-    return V(x) - ( V(2*Radio) * porcentaje )
+def f1(x):  return V(x) - ( V(2*Radio) * porcentaje )
 
-def f2(x): 
-    return V(x) - V(2*Radio) 
+def f2(x):  return V(x) - V(2*Radio) 
 
-def f_prima(x): 
-    return x * np.pi * (2 * Radio - x)
+def f_prima(x):  return x * np.pi * (2 * Radio - x)
 
-def f_segunda(x):
-    return 2 * np.pi * (Radio - x)
+def f_segunda(x): return 2 * np.pi * (Radio - x)
 
-(uno, dos) = br.RaizBiseccion(f1, 5, 8, 0.02)
-print(uno, dos)
+funcion= f1
+
+#(uno, dos) = br.RaizSecante(funcion, br.lim_inf, br.lim_sup, br.min_error)
+
+#(uno, dos) = br.RaizPF(funcion, br.lim_inf, br.lim_sup, br.min_error)
+
+#(uno, dos) = br.RaizBiseccion(funcion, br.lim_inf, br.lim_sup, br.min_error)
+
+(uno, dos) = br.RaizNR(funcion, f_prima, br.lim_inf, br.lim_sup, br.min_error)
+
+#(uno, dos) = br.RaizNRmodificado(funcion, f_prima, f_segunda, br.lim_inf, br.lim_sup, br.min_error)
+
+print("El valor de la raiz es:{0} +- {1}".format(uno, dos))
