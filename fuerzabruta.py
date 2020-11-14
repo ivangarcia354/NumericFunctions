@@ -11,7 +11,7 @@ intento = 0
 candado = 0
 intentos = []
 
-aux = 10**NUM_DIG_CONTRA
+aux = 10 ** NUM_DIG_CONTRA
 
 while candado < NUM_CANDADOS:
     contraseña = np.random.randint(aux-1)
