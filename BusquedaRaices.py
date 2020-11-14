@@ -1,11 +1,7 @@
 import numpy as np
 import sys
 
-MSG_ERROR_COTAS="Error de selección de cotas"
-
-min_error = float(input("inserte el error "))
-lim_sup = float(input("inserte un límite superior "))
-lim_inf = float(input("inserte un límite inferior "))
+MSG_ERROR_COTAS = "Error de selección de cotas"
 
 
 #ecuaciones de las funciones a estudiar
@@ -37,38 +33,39 @@ def bisección(a,b): return (b+a)/2
 #BISECCIÓN
 def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
   
-    if funcion(lim_inf)*funcion(lim_sup) >=0:  
+    if funcion(lim_inf) * funcion(lim_sup) >=0:  
         print(MSG_ERROR_COTAS) 
         sys.exit(1)
       
-    print("Iteraciones del método de Bisección\n")
-    n=int(np.log2((lim_sup-lim_inf)/min_error))
-    print("cantidad de iteraciones para hacer", n)
+    print("Limite inferior en RaizBiseccion", lim_inf)
+    print("Limite superior en RaizBiseccion", lim_sup)
+    n = int(np.log2((lim_sup-lim_inf)/min_error))
+    print("cantidad de iteraciones para hacer Bisección", n)
 
-    i=0
-    b=lim_sup
-    a=lim_inf
+    i = 0
+    b = lim_sup
+    a = lim_inf
     
     while i < (n):
 
-        p = bisección(a,b)
-        ep = abs(b-p)
-        i+=1
-        print(i,"°  ","{0} +- {1}".format(p,ep))
+        p = bisección(a, b)
+        ep = abs(b - p)
+        i += 1
+        print(i, "°  ", "{0} +- {1}".format(p,ep))
 
-        if (funcion(p)*funcion(b)) < 0:
+        if (funcion(p) * funcion(b)) < 0:
             a = p
-        elif (funcion(p)*funcion(a) < 0):
+        elif (funcion(p) * funcion(a)) < 0:
             b = p
         else :
-            print("Hay algo que no esta bien")
+            print("La funcion es nula")
             break
             
     print("Se hicieron",i,"iteraciones con el método de bisección\n")
     
     num_dig_error = int(np.ceil(abs(np.log10(min_error))))   
     raiz = np.round(p, num_dig_error) 
-    error=round_up(abs(ep),num_dig_error)
+    error = round_up(abs(ep),num_dig_error)
     
     return raiz,error
 
@@ -90,7 +87,7 @@ def RaizSecante(funcion, lim_inf, lim_sup, min_error):
     p_n_1 = p
     aux = p_n_1 - p_n_2
     
-    i=1
+    i = 1
     print(i,"°  ",p)
     
     while abs(aux) > min_error:
@@ -126,14 +123,14 @@ def RaizPF(funcion, lim_inf, lim_sup, min_error):
     
     print("Iteraciones del método de Punto fijo\n")
     
-    i=0
+    i = 1
     while abs(aux) > min_error:
     
       p_next = g(p)
       aux = (p_next - p)
       p = p_next
-      i += 1
       print(i, "°  ", p_next)
+      i += 1
     
     print("\nSe hicieron", i, "iteraciones con el método de Punto Fijo\n")
     
@@ -147,18 +144,19 @@ def RaizNR(funcion, prima, lim_inf, lim_sup, min_error):
     
     (semilla,cota) = RaizBiseccion(funcion,lim_inf,lim_sup,0.02)
         
-    p=semilla 
+    p = semilla 
     aux = cota
     
     print("Iteraciones del método de Newton Raphson:\n")
-    i=0
+    i = 1
     
     while abs(aux) > min_error:
-      p_next = p - (funcion(p)/prima(p))
+      p_next = p - (funcion(p) / prima(p))
       aux = p_next - p
       p= p_next
-      i+=1
+      
       print(i,"°  ",p)
+      i+=1
       
     
     print("\nSe hicieron", i, "iteraciones con el método de Newton Raphson\n")
@@ -170,26 +168,26 @@ def RaizNR(funcion, prima, lim_inf, lim_sup, min_error):
     return raiz,error
 
 
+
 #%%
 #Newton-Raphson Modificado
  
 def RaizNRmodificado(funcion, f_prima, f_segunda, lim_inf, lim_sup, min_error):
     
-    (semilla,cota) = RaizBiseccion(funcion,lim_inf,lim_sup,0.02)
+    (semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
         
-    p=semilla 
+    p = semilla 
     aux = cota
-    
+   
     print("Iteraciones del método de Newton Raphson modificado:\n")
-    i=0
+    i = 1
     
     while abs(aux) > min_error:
       p_next = p - (funcion(p) * f_prima(p)) / (( f_prima(p)) ** 2 - funcion(p) * f_segunda(p))
       aux = p_next - p
-      p= p_next
-      i+=1
+      p = p_next
       print(i,"°  ",p)
-      
+      i+=1
     
     print("\nSe hicieron", i, "iteraciones con el método de Newton Raphson modificado\n")
     
