@@ -1,8 +1,9 @@
 import numpy as np
 import sys
 
-MSG_ERROR_COTAS = "Error de selección de cotas"
 
+MSG_ERROR_COTAS = "Error de selección de cotas"
+raiz_error = [raiz[], error[]]
 
 #ecuaciones de las funciones a estudiar
 
@@ -33,13 +34,11 @@ def bisección(a,b): return (b+a)/2
 #BISECCIÓN
 def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
   
-    if funcion(lim_inf) * funcion(lim_sup) >=0:  
-        print(MSG_ERROR_COTAS) 
-        sys.exit(1)
+    if ((funcion(lim_inf) * funcion(lim_sup) >= 0) | (lim_inf > lim_sup)):  
+        sys.exit(MSG_ERROR_COTAS)
       
-    print("Limite inferior en RaizBiseccion", lim_inf)
-    print("Limite superior en RaizBiseccion", lim_sup)
-    n = int(np.log2((lim_sup-lim_inf)/min_error))
+    
+    n = int(np.log2(abs(lim_sup-lim_inf)/min_error))
     print("cantidad de iteraciones para hacer Bisección", n)
 
     i = 0
@@ -58,8 +57,8 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
         elif (funcion(p) * funcion(a)) < 0:
             b = p
         else :
-            print("La funcion es nula")
-            break
+            print("La funcion es nula en p")
+            return p, 2.2250738585072009e-308
             
     print("Se hicieron",i,"iteraciones con el método de bisección\n")
     
@@ -123,14 +122,15 @@ def RaizPF(funcion, lim_inf, lim_sup, min_error):
     
     print("Iteraciones del método de Punto fijo\n")
     
-    i = 1
+    i = 0
     while abs(aux) > min_error:
     
       p_next = g(p)
       aux = (p_next - p)
       p = p_next
-      print(i, "°  ", p_next)
       i += 1
+      print(i, "°  ", p_next)
+      
     
     print("\nSe hicieron", i, "iteraciones con el método de Punto Fijo\n")
     
@@ -148,15 +148,15 @@ def RaizNR(funcion, prima, lim_inf, lim_sup, min_error):
     aux = cota
     
     print("Iteraciones del método de Newton Raphson:\n")
-    i = 1
+    i = 0
     
     while abs(aux) > min_error:
       p_next = p - (funcion(p) / prima(p))
       aux = p_next - p
       p= p_next
-      
-      print(i,"°  ",p)
       i+=1
+      print(i,"°  ",p)
+      
       
     
     print("\nSe hicieron", i, "iteraciones con el método de Newton Raphson\n")
@@ -180,14 +180,15 @@ def RaizNRmodificado(funcion, f_prima, f_segunda, lim_inf, lim_sup, min_error):
     aux = cota
    
     print("Iteraciones del método de Newton Raphson modificado:\n")
-    i = 1
+    i = 0
     
     while abs(aux) > min_error:
       p_next = p - (funcion(p) * f_prima(p)) / (( f_prima(p)) ** 2 - funcion(p) * f_segunda(p))
       aux = p_next - p
       p = p_next
+      i += 1
       print(i,"°  ",p)
-      i+=1
+      
     
     print("\nSe hicieron", i, "iteraciones con el método de Newton Raphson modificado\n")
     
