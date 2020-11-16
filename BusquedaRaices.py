@@ -3,7 +3,7 @@ import sys
 
 
 MSG_ERROR_COTAS = "Error de selección de cotas"
-raiz_error = [raiz[], error[]]
+#raiz_error = [raiz[], error[]]
 
 #ecuaciones de las funciones a estudiar
 
@@ -39,7 +39,7 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
       
     
     n = int(np.log2(abs(lim_sup-lim_inf)/min_error))
-    print("cantidad de iteraciones para hacer Bisección", n)
+    print("Cantidad de iteraciones para hacer con el método de Bisección:", n,"\n")
 
     i = 0
     b = lim_sup
@@ -120,7 +120,7 @@ def RaizPF(funcion, lim_inf, lim_sup, min_error):
     p = semilla
     aux=cota
     
-    print("Iteraciones del método de Punto fijo\n")
+    print("Iteraciones del método de Punto fijo:\n")
     
     i = 0
     while abs(aux) > min_error:
@@ -187,7 +187,7 @@ def RaizNRmodificado(funcion, f_prima, f_segunda, lim_inf, lim_sup, min_error):
       aux = p_next - p
       p = p_next
       i += 1
-      print(i,"°  ",p)
+      print(i, "°  ", "{0} +- {1}".format(p,abs(aux)))
       
     
     print("\nSe hicieron", i, "iteraciones con el método de Newton Raphson modificado\n")
