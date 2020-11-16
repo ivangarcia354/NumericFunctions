@@ -1,15 +1,14 @@
 import BusquedaRaices as br
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.offsetbox import AnchoredOffsetbox, TextArea, HPacker, VPacker
 
 padrones=103887,104181,103839,104606
 Radio = 4.25
 lim_inf=4
 lim_sup=6
-min_error=0.00001
-#suma de los ultimos digitos de los padrones de los estudiantes del grupo
+min_error=1 * 10**(-13)
 
+#suma de los ultimos digitos de los padrones de los estudiantes del grupo
 aux=0
 n=0
 for i in padrones:
@@ -28,6 +27,8 @@ def f_prima(x):  return x * np.pi * (2 * Radio - x)
 
 def f_segunda(x): return 2 * np.pi * (Radio - x)
 
+#%%
+#GRAFICO DE FUNCIONES
 x = np.arange(0., 2*Radio, 0.01)
 
 #configuración f1(x) y f2(x) gráfico
@@ -65,16 +66,18 @@ plt.grid(True)
 plt.tight_layout(pad=5,rect =(0,0,3,1.5))
 plt.show()
 
+#%%
+#MÉTODOS DE BUQUEDA DE RAICES
 funcion= f1
 
 #(uno, dos) = br.RaizSecante(funcion, lim_inf, lim_sup, min_error)
 
-#(uno, dos) = br.RaizPF(funcion, lim_inf, lim_sup, min_error)
+(uno, dos) = br.RaizPF(funcion, lim_inf, lim_sup, min_error)
 
 #(uno, dos) = br.RaizBiseccion(funcion, lim_inf, lim_sup, min_error)
 
 #(uno, dos) = br.RaizNR(funcion, f_prima, lim_inf, lim_sup, min_error)
 
-(uno, dos) = br.RaizNRmodificado(funcion, f_prima, f_segunda, lim_inf, lim_sup, min_error)
+#(uno, dos) = br.RaizNRmodificado(funcion, f_prima, f_segunda, lim_inf, lim_sup, min_error)
 
 print("El valor de la raiz es: {0} +- {1}".format(uno, dos))

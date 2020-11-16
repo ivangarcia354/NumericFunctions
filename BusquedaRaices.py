@@ -57,8 +57,8 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
         elif (funcion(p) * funcion(a)) < 0:
             b = p
         else :
-            print("La funcion es nula en p")
-            return p, 2.2250738585072009e-308
+            ep=2.2250738585072009e-308
+            break
             
     print("Se hicieron",i,"iteraciones con el método de bisección\n")
     
@@ -108,28 +108,25 @@ def RaizSecante(funcion, lim_inf, lim_sup, min_error):
 #%%
 #PUNTO FIJO
 
-
-
 def RaizPF(funcion, lim_inf, lim_sup, min_error): 
     
-    def g(x) : return (funcion(x) + x)
+    def g(x) : return ( x - funcion(x))
     
     (semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
-    lim_sup = semilla + cota
-    lim_inf = semilla - cota
     p = semilla
     aux=cota
     
     print("Iteraciones del método de Punto fijo:\n")
+    k=abs(1/(1-g(min_error)))
     
     i = 0
     while abs(aux) > min_error:
-    
-      p_next = g(p)
-      aux = (p_next - p)
+        
+      p_next = p + k*(g(p)-p)
+      aux = k/(1-k)*(p_next - p)
       p = p_next
       i += 1
-      print(i, "°  ", p_next)
+      print(i, "°  ", "{0} +- {1}".format(p,abs(aux)))
       
     
     print("\nSe hicieron", i, "iteraciones con el método de Punto Fijo\n")
@@ -140,7 +137,7 @@ def RaizPF(funcion, lim_inf, lim_sup, min_error):
     return raiz, error
 #%%
 #Newton-Rhapson
-def RaizNR(funcion, prima, lim_inf, lim_sup, min_error): 
+def RaizNR(funcion, f_prima, lim_inf, lim_sup, min_error): 
     
     (semilla,cota) = RaizBiseccion(funcion,lim_inf,lim_sup,0.02)
         
@@ -151,7 +148,7 @@ def RaizNR(funcion, prima, lim_inf, lim_sup, min_error):
     i = 0
     
     while abs(aux) > min_error:
-      p_next = p - (funcion(p) / prima(p))
+      p_next = p - (funcion(p) / f_prima(p))
       aux = p_next - p
       p= p_next
       i+=1
@@ -208,9 +205,9 @@ def RaizNRmodificado(funcion, f_prima, f_segunda, lim_inf, lim_sup, min_error):
 
 #(raiz,error) = RaizSecante(funcion, lim_inf, lim_sup, min_error)
 
-#(raiz,error) = RaizNR(funcion, prima, lim_inf, lim_sup, min_error)
+#(raiz,error) = RaizNR(funcion, f_prima, lim_inf, lim_sup, min_error)
 
-#(raiz,error) = RaizNRmodifcado(funcion,prima,segunda, lim_inf, lim_sup, min_error)
+#(raiz,error) = RaizNRmodifcado(funcion,f_prima,f_segunda, lim_inf, lim_sup, min_error)
 
 #print("El valor de la raiz es:{0} +- {1}".format(raiz,error))
 #print("El valor de la función en la aproximación a la raiz es: ", funcion(raiz))
