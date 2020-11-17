@@ -118,7 +118,7 @@ def RaizPF(funcion, min_error, semilla, cota_semilla):
     while abs(aux) > min_error:
         
       p_next = g(p)
-      aux = k / (1 - k) * (p_next - p)
+      aux =(p_next - p)
       p = p_next
       i += 1
       print(i, "°  ", "{0} +- {1}".format(p, abs(aux)))
