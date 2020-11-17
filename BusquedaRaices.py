@@ -69,25 +69,20 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
     return raiz,error
 
 #%%
-#SECANTE
-
-def RaizSecante(funcion, lim_inf, lim_sup, min_error): 
+#SECANTE Debe recibir una funcion a analizar, un error, una semilla y una cota para la semilla dada.
+ 
+def RaizSecante(funcion, min_error, semilla_1, semilla_2): 
     
-    (semilla,cota) = RaizBiseccion(funcion,lim_inf,lim_sup,0.02)
     
-    lim_sup = semilla + cota
-    lim_inf = semilla - cota
-    p = semilla
+   
     
     print("Iteraciones del método de la secante\n")
     
-    #las varibles lim_sup,lim_inf y p están para luego analizar bien las condiciones necesarias para el uso del Método de la secante
-    p_n_2 = lim_sup 
-    p_n_1 = p
+    p_n_2 = semilla_2 
+    p_n_1 = semilla_1
     aux = p_n_1 - p_n_2
     
     i = 1
-    print(i,"°  ",p)
     
     while abs(aux) > min_error:
       p = p_n_1 - ( ( funcion(p_n_1) * (p_n_1 - p_n_2 ) ) / ( funcion(p_n_1) - funcion(p_n_2) ) )
@@ -106,16 +101,16 @@ def RaizSecante(funcion, lim_inf, lim_sup, min_error):
     return raiz,error
 
 #%%
-#PUNTO FIJO
+#PUNTO FIJO Debe recibir una funcion a analizar, un error, una semilla y una cota dada para la semilla.
 
-def RaizPF(funcion, lim_inf, lim_sup, min_error): 
+def RaizPF(funcion, min_error, semilla, cota_semilla): 
     
     k = 0.02
     def g(x) : return ( x -k* funcion(x))
     
-    (semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
+    #(semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
     p = semilla
-    aux = cota
+    aux = cota_semilla
     
     print("Iteraciones del método de Punto fijo:\n")
     
@@ -136,13 +131,13 @@ def RaizPF(funcion, lim_inf, lim_sup, min_error):
     error = round_up(abs(aux),num_dig_error)
     return raiz, error
 #%%
-#Newton-Rhapson
-def RaizNR(funcion, f_prima, lim_inf, lim_sup, min_error): 
+#Newton-Rhapson Debe recibir una funcion a analizar, su derivada, un error, una semilla y una cota dada para la semilla.
+def RaizNR(funcion, f_prima, min_error, semilla, cota_semilla): 
     
-    (semilla,cota) = RaizBiseccion(funcion,lim_inf,lim_sup,0.02)
+    #(semilla,cota) = RaizBiseccion(funcion,lim_inf,lim_sup,0.02)
         
     p = semilla 
-    aux = cota
+    aux = cota_semilla
     
     print("Iteraciones del método de Newton Raphson:\n")
     i = 0
@@ -169,12 +164,12 @@ def RaizNR(funcion, f_prima, lim_inf, lim_sup, min_error):
 #%%
 #Newton-Raphson Modificado
  
-def RaizNRmodificado(funcion, f_prima, f_segunda, lim_inf, lim_sup, min_error):
+def RaizNRmodificado(funcion, f_prima, f_segunda, min_error, semilla, cota_semilla):
     
-    (semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
+    #(semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
         
     p = semilla 
-    aux = cota
+    aux = cota_semilla
    
     print("Iteraciones del método de Newton Raphson modificado:\n")
     i = 0
