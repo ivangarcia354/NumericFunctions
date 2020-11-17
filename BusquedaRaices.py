@@ -114,19 +114,19 @@ def RaizPF(funcion, lim_inf, lim_sup, min_error):
     
     (semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
     p = semilla
-    aux=cota
+    aux = cota
     
     print("Iteraciones del método de Punto fijo:\n")
-    k=abs(1/(1-g(min_error)))
+    k = abs(1 / (1 - g(min_error)))
     
     i = 0
     while abs(aux) > min_error:
         
-      p_next = p + k*(g(p)-p)
-      aux = k/(1-k)*(p_next - p)
+      p_next = p + k * (g(p) - p)
+      aux = k / (1 - k) * (p_next - p)
       p = p_next
       i += 1
-      print(i, "°  ", "{0} +- {1}".format(p,abs(aux)))
+      print(i, "°  ", "{0} +- {1}".format(p, abs(aux)))
       
     
     print("\nSe hicieron", i, "iteraciones con el método de Punto Fijo\n")
