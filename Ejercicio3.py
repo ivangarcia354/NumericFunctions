@@ -92,7 +92,7 @@ semilla = (matriz_semilla_1[iteraciones_1 - 1])[1]
 cota_semilla = (matriz_semilla_1[iteraciones_1 - 1])[2]
 
 #%%
-header = ["Iteración", "Resultado", "Error", "laNDEAda", "p"]
+header = ["Iteración", "Resultado", "Error", "Lambda", "p"]
 
 (matriz_biseccion, iteraciones_biseccion) = br.RaizBiseccion(funcion, lim_inf, lim_sup, min_error)
 matriz_biseccion.insert(0, header)

@@ -51,6 +51,7 @@ def GenerarTabla(data, iteraciones, title_text, file_name):
                         colColours = ccolors,
                         colLoc = 'center',
                         colLabels = column_headers,
+                        colWidths = [0.15,0.3,0.15,0.15,0.15],
                         loc = 'center')
   # Scaling is the only influence we have over top and bottom cell padding.
   # Make the rows taller (i.e., make cell y scale larger).
