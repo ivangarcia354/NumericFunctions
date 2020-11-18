@@ -6,7 +6,7 @@ padrones = 103887, 104181, 103839, 104606
 Radio = 4.25
 lim_inf = 4
 lim_sup = 6
-min_error = 1 * 10**(-5)
+min_error = 1 * 10**(-13)
 ERROR_BISECCION = 0.02
 
 
@@ -100,13 +100,13 @@ raices.append(raiz_titulo)
 #busqueda de semilla
 (matriz_semilla_1, iteraciones_1) = br.RaizBiseccion(funcion, lim_inf, lim_sup, ERROR_BISECCION)
 
-semilla = matriz_semilla_1[iteraciones_1-1].pop(1) 
-cota_semilla = matriz_semilla_1[iteraciones_1-1].pop(2)
+semilla = (matriz_semilla_1[iteraciones_1-1])[1]
+cota_semilla = (matriz_semilla_1[iteraciones_1-1])[2]
 
 #%%
 
-#(matriz_biseccion, iteraciones_biseccion) = br.RaizBiseccion(funcion, lim_inf, lim_sup, min_error)
-#print("\nBisección:\n",matriz_biseccion)
+(matriz_biseccion, iteraciones_biseccion) = br.RaizBiseccion(funcion, lim_inf, lim_sup, min_error)
+print("\nBisección:\n",matriz_biseccion)
 semilla_1 = semilla
 semilla_2 = semilla + cota_semilla
 

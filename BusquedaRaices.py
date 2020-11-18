@@ -20,7 +20,6 @@ def bisección(a,b): return (b+a)/2
 def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
   
     matriz = []
-    raiz_vector = []
 
     if ((funcion(lim_inf) * funcion(lim_sup) >= 0) | (lim_inf > lim_sup)):  
         sys.exit(MSG_ERROR_COTAS)
@@ -53,6 +52,7 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
         raiz = np.round(p, num_dig_error) 
         error = round_up(abs(ep),num_dig_error)
     
+        raiz_vector = []
         
         raiz_vector.append(i)
         raiz_vector.append(raiz)
@@ -70,7 +70,6 @@ def RaizSecante(funcion, min_error, semilla_1, semilla_2):
     
     
     matriz = []
-    raiz_vector = []
 
     p_n_2 = semilla_2 
     p_n_1 = semilla_1
@@ -89,6 +88,7 @@ def RaizSecante(funcion, min_error, semilla_1, semilla_2):
       raiz = np.round(p, num_dig_error) 
       error = round_up(abs(aux),num_dig_error)
   
+      raiz_vector = []
       raiz_vector.append(i)
       raiz_vector.append(raiz)
       raiz_vector.append(error)
@@ -107,7 +107,6 @@ def RaizPF(funcion, min_error, semilla, cota_semilla):
     def g(x) : return ( x -k* funcion(x))
     
     matriz = []
-    raiz_vector = []
     
     #(semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
     p = semilla
@@ -126,6 +125,7 @@ def RaizPF(funcion, min_error, semilla, cota_semilla):
       raiz = np.round(p_next, num_dig_error) 
       error = round_up(abs(aux),num_dig_error)      
       
+      raiz_vector = []
       raiz_vector.append(i)
       raiz_vector.append(raiz)
       raiz_vector.append(error)
@@ -141,7 +141,6 @@ def RaizNR(funcion, f_prima, min_error, semilla, cota_semilla):
     
     
     matriz = []
-    raiz_vector = []
     
         
     p = semilla 
@@ -159,6 +158,7 @@ def RaizNR(funcion, f_prima, min_error, semilla, cota_semilla):
       raiz = np.round(p, num_dig_error) 
       error = round_up(abs(aux),num_dig_error)      
       
+      raiz_vector = []
       raiz_vector.append(i)
       raiz_vector.append(raiz)
       raiz_vector.append(error)
@@ -177,7 +177,6 @@ def RaizNRmodificado(funcion, f_prima, f_segunda, min_error, semilla, cota_semil
     #(semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
     
     matriz = []
-    raiz_vector = []
       
     p = semilla 
     aux = cota_semilla
@@ -195,6 +194,7 @@ def RaizNRmodificado(funcion, f_prima, f_segunda, min_error, semilla, cota_semil
       raiz = np.round(p, num_dig_error) 
       error = round_up(abs(aux),num_dig_error)      
       
+      raiz_vector = []
       raiz_vector.append(i)
       raiz_vector.append(raiz)
       raiz_vector.append(error)
