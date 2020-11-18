@@ -25,13 +25,12 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
         sys.exit(MSG_ERROR_COTAS)
       
     
-    n = int(np.log2(abs(lim_sup-lim_inf)/min_error))
-
+   
     i = 0
     b = lim_sup
     a = lim_inf
-    
-    while i < (n):
+    ep = min_error + 1
+    while abs(ep) > min_error:
 
         p = bisección(a, b)
         ep = abs(b - p)
@@ -50,7 +49,7 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
 
         num_dig_error = int(np.ceil(abs(np.log10(ep))))   
         raiz = np.round(p, num_dig_error) 
-        error = round_up(abs(ep),num_dig_error)
+        error = round_up(abs(ep), num_dig_error)
     
         raiz_vector = []
         
@@ -86,7 +85,7 @@ def RaizSecante(funcion, min_error, semilla_1, semilla_2):
       
       num_dig_error = int(np.ceil(abs(np.log10(abs(aux)))))   
       raiz = np.round(p, num_dig_error) 
-      error = round_up(abs(aux),num_dig_error)
+      error = round_up(abs(aux), num_dig_error)
   
       raiz_vector = []
       raiz_vector.append(i)
@@ -181,7 +180,6 @@ def RaizNRmodificado(funcion, f_prima, f_segunda, min_error, semilla, cota_semil
     p = semilla 
     aux = cota_semilla
    
-    print("Iteraciones del método de Newton Raphson modificado:\n")
     i = 0
     
     while abs(aux) > min_error:
