@@ -80,8 +80,10 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
             
     print("Se hicieron", i, "iteraciones con el método de bisección\n")
     
+    semilla = raices[i-1].pop(1)
+    cota = raices[i-1].pop(1)
   
-    return raices, i
+    return semilla, cota
 
 #%%
 #SECANTE Debe recibir una funcion a analizar, un error, una semilla y una cota para la semilla dada.
