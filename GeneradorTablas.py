@@ -41,7 +41,7 @@ def GenerarTabla(data, iteraciones, title_text, file_name):
              edgecolor = fig_border,
              facecolor = fig_background_color,
              tight_layout = {'pad':1},
-             figsize = (3, iteraciones*(4/6))
+             figsize = (6, iteraciones*(4/6))
             )
   # Add a table at the bottom of the axes
   the_table = plt.table(cellText = cell_text,

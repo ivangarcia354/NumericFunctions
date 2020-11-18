@@ -37,8 +37,7 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
         i += 1
 
        
-        #print(i, "°  ", "{0} +- {1}".format(p,ep))
-
+        
         if (funcion(p) * funcion(b)) < 0:
             a = p
         elif (funcion(p) * funcion(a)) < 0:
@@ -107,27 +106,46 @@ def RaizPF(funcion, min_error, semilla, cota_semilla):
     
     matriz = []
     
-    #(semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
     p = semilla
     aux = cota_semilla
-    
+    p_prev2 = 0
+    p_prev = 0
     
     i = 0
     while abs(aux) > min_error:
         
       p_next = g(p)
       aux =(p_next - p)
-      p = p_next
+      
       i += 1
       
       num_dig_error = int(np.ceil(abs(np.log10(abs(aux)))))   
       raiz = np.round(p_next, num_dig_error) 
       error = round_up(abs(aux),num_dig_error)      
       
+      if i > 3 :
+
+       delta_1 = abs(p_prev - p_prev2)
+       delta_2 = abs(p - p_prev)
+       delta_3 = abs(p_next - p)
+       conv = np.log(delta_2 / delta_3)/np.log(delta_1 / delta_2)
+       landa = delta_3 / (delta_2**conv)
+       conv = format(conv, '.4g')
+       landa = format(landa, '.4g')
+      else:
+        landa = ""
+        conv = ""
+      p_prev2 = p_prev
+      p_prev = p
+      p = p_next
+
+      
       raiz_vector = []
       raiz_vector.append(i)
       raiz_vector.append(raiz)
       raiz_vector.append(error)
+      raiz_vector.append(landa)
+      raiz_vector.append(conv)
       matriz.append(raiz_vector)
     
     print("\nSe hicieron", i, "iteraciones con el método de Punto Fijo\n")
@@ -144,23 +162,44 @@ def RaizNR(funcion, f_prima, min_error, semilla, cota_semilla):
         
     p = semilla 
     aux = cota_semilla
+    p_prev = 0
+    p_prev2 = 0
     
     i = 0
     
     while abs(aux) > min_error:
       p_next = p - (funcion(p) / f_prima(p))
       aux = p_next - p
-      p= p_next
+      
       i+=1
       
       num_dig_error = int(np.ceil(abs(np.log10(abs(aux)))))   
       raiz = np.round(p, num_dig_error) 
-      error = round_up(abs(aux),num_dig_error)      
+      error = round_up(abs(aux),num_dig_error)
+
+      if i > 3 :
+
+       delta_1 = abs(p_prev - p_prev2)
+       delta_2 = abs(p - p_prev)
+       delta_3 = abs(p_next - p)
+       conv = np.log(delta_2 / delta_3)/np.log(delta_1 / delta_2)
+       landa = delta_3 / (delta_2**conv)
+       conv = format(conv, '.10g')
+       landa = format(landa, '.10g')
+      else:
+        landa = ""
+        conv = ""  
+
+      p_prev2 = p_prev
+      p_prev = p
+      p = p_next    
       
       raiz_vector = []
       raiz_vector.append(i)
       raiz_vector.append(raiz)
       raiz_vector.append(error)
+      raiz_vector.append(landa)
+      raiz_vector.append(conv)
       matriz.append(raiz_vector)
       
       
@@ -173,7 +212,6 @@ def RaizNR(funcion, f_prima, min_error, semilla, cota_semilla):
  
 def RaizNRmodificado(funcion, f_prima, f_segunda, min_error, semilla, cota_semilla):
     
-    #(semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
     
     matriz = []
       
