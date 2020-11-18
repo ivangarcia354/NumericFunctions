@@ -19,7 +19,7 @@ def bisección(a,b): return (b+a)/2
 #BISECCIÓN
 def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
   
-    raices = []
+    matriz = []
     raiz_vector = []
 
     if ((funcion(lim_inf) * funcion(lim_sup) >= 0) | (lim_inf > lim_sup)):  
@@ -57,12 +57,11 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
         raiz_vector.append(i)
         raiz_vector.append(raiz)
         raiz_vector.append(error)
-        raices.append(raiz_vector)
+        matriz.append(raiz_vector)
             
     print("Se hicieron", i, "iteraciones con el método de bisección\n")
     
-  
-    return raices, i
+    return matriz, i
 
 #%%
 #SECANTE Debe recibir una funcion a analizar, un error, una semilla y una cota para la semilla dada.
@@ -70,7 +69,7 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
 def RaizSecante(funcion, min_error, semilla_1, semilla_2): 
     
     
-    raices = []
+    matriz = []
     raiz_vector = []
 
     p_n_2 = semilla_2 
@@ -93,13 +92,11 @@ def RaizSecante(funcion, min_error, semilla_1, semilla_2):
       raiz_vector.append(i)
       raiz_vector.append(raiz)
       raiz_vector.append(error)
-      raices.append(raiz_vector)
+      matriz.append(raiz_vector)
     
     print("\nSe hicieron", i, "iteraciones con el método de la secante\n")
     
-    
-    
-    return raices, i
+    return matriz, i
 
 #%%
 #PUNTO FIJO Debe recibir una funcion a analizar, un error, una semilla y una cota dada para la semilla.
@@ -109,7 +106,7 @@ def RaizPF(funcion, min_error, semilla, cota_semilla):
     k = 0.02
     def g(x) : return ( x -k* funcion(x))
     
-    raices = []
+    matriz = []
     raiz_vector = []
     
     #(semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
@@ -132,18 +129,18 @@ def RaizPF(funcion, min_error, semilla, cota_semilla):
       raiz_vector.append(i)
       raiz_vector.append(raiz)
       raiz_vector.append(error)
-      raices.append(raiz_vector)
+      matriz.append(raiz_vector)
     
     print("\nSe hicieron", i, "iteraciones con el método de Punto Fijo\n")
     
+    return matriz, i
 
-    return raices, i
 #%%
 #Newton-Rhapson Debe recibir una funcion a analizar, su derivada, un error, una semilla y una cota dada para la semilla.
 def RaizNR(funcion, f_prima, min_error, semilla, cota_semilla): 
     
     
-    raices = []
+    matriz = []
     raiz_vector = []
     
         
@@ -165,15 +162,12 @@ def RaizNR(funcion, f_prima, min_error, semilla, cota_semilla):
       raiz_vector.append(i)
       raiz_vector.append(raiz)
       raiz_vector.append(error)
-      raices.append(raiz_vector)
+      matriz.append(raiz_vector)
       
       
     print("\nSe hicieron", i, "iteraciones con el método de Newton Raphson\n")
     
-    
-    return raices, i
-
-
+    return matriz, i
 
 #%%
 #Newton-Raphson Modificado
@@ -182,7 +176,7 @@ def RaizNRmodificado(funcion, f_prima, f_segunda, min_error, semilla, cota_semil
     
     #(semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
     
-    raices = []
+    matriz = []
     raiz_vector = []
       
     p = semilla 
@@ -204,10 +198,10 @@ def RaizNRmodificado(funcion, f_prima, f_segunda, min_error, semilla, cota_semil
       raiz_vector.append(i)
       raiz_vector.append(raiz)
       raiz_vector.append(error)
-      raices.append(raiz_vector)
+      matriz.append(raiz_vector)
       
     
     print("\nSe hicieron", i, "iteraciones con el método de Newton Raphson modificado\n")
     
     
-    return raices, i
+    return matriz, i
