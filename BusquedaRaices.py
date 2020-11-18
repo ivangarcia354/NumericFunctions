@@ -1,27 +1,9 @@
 import numpy as np
 import sys
 
+# Este archivo contiene todos los métodos numéricos utilizados en el Trabajo Práctico 1
 
 MSG_ERROR_COTAS = "Error de selección de cotas"
-
-
-
-#raiz_error = [raiz[], error[]]
-
-#ecuaciones de las funciones a estudiar
-
-def f1(x): return 0.25*x**2 - np.sin(x)
-#cotas de f1: 2° raiz: max=3,min=1
-
-def f2(x) : return np.exp(x/4) - x
-#cotas de f2: 1° raiz: max=2,min=1
-#             2° raiz: max=9,min=8
-
-def f3(x) : return 1 - x - np.exp( -2*x )
-#cotas de f3: 2° raiz: max=1,min=0.5
-
-def f4(x) : return np.pi * (-1/3 *x**3 + 3*x**2 - 126/5)
-#cotas de f4: max=5,min=1
 
 
 #%%
@@ -45,7 +27,6 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
       
     
     n = int(np.log2(abs(lim_sup-lim_inf)/min_error))
-    print("Cantidad de iteraciones para hacer con el método de Bisección:", n,"\n")
 
     i = 0
     b = lim_sup
@@ -89,31 +70,36 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
 def RaizSecante(funcion, min_error, semilla_1, semilla_2): 
     
     
-   
-    
-    print("Iteraciones del método de la secante\n")
-    
+    raices = []
+    raiz_vector = []
+
     p_n_2 = semilla_2 
     p_n_1 = semilla_1
     aux = p_n_1 - p_n_2
     
-    i = 1
+    i = 0
     
     while abs(aux) > min_error:
       p = p_n_1 - ( ( funcion(p_n_1) * (p_n_1 - p_n_2 ) ) / ( funcion(p_n_1) - funcion(p_n_2) ) )
       p_n_2 = p_n_1
       p_n_1 = p
       aux = p_n_1 - p_n_2
-      print(i+1,"°  ",p)
       i+=1
+      
+      num_dig_error = int(np.ceil(abs(np.log10(abs(aux)))))   
+      raiz = np.round(p, num_dig_error) 
+      error = round_up(abs(aux),num_dig_error)
+  
+      raiz_vector.append(i)
+      raiz_vector.append(raiz)
+      raiz_vector.append(error)
+      raices.append(raiz_vector)
     
     print("\nSe hicieron", i, "iteraciones con el método de la secante\n")
     
-    num_dig_error = int(np.ceil(abs(np.log10(min_error))))   
-    raiz = np.round(p, num_dig_error) 
-    error = round_up(abs(aux),num_dig_error)
     
-    return raiz,error
+    
+    return raices, i
 
 #%%
 #PUNTO FIJO Debe recibir una funcion a analizar, un error, una semilla y una cota dada para la semilla.
@@ -123,11 +109,13 @@ def RaizPF(funcion, min_error, semilla, cota_semilla):
     k = 0.02
     def g(x) : return ( x -k* funcion(x))
     
+    raices = []
+    raiz_vector = []
+    
     #(semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
     p = semilla
     aux = cota_semilla
     
-    print("Iteraciones del método de Punto fijo:\n")
     
     i = 0
     while abs(aux) > min_error:
@@ -136,25 +124,32 @@ def RaizPF(funcion, min_error, semilla, cota_semilla):
       aux =(p_next - p)
       p = p_next
       i += 1
-      print(i, "°  ", "{0} +- {1}".format(p, abs(aux)))
       
+      num_dig_error = int(np.ceil(abs(np.log10(abs(aux)))))   
+      raiz = np.round(p_next, num_dig_error) 
+      error = round_up(abs(aux),num_dig_error)      
+      
+      raiz_vector.append(i)
+      raiz_vector.append(raiz)
+      raiz_vector.append(error)
+      raices.append(raiz_vector)
     
     print("\nSe hicieron", i, "iteraciones con el método de Punto Fijo\n")
     
-    num_dig_error = int(np.ceil(abs(np.log10(min_error))))   
-    raiz = np.round(p_next, num_dig_error) 
-    error = round_up(abs(aux),num_dig_error)
-    return raiz, error
+
+    return raices, i
 #%%
 #Newton-Rhapson Debe recibir una funcion a analizar, su derivada, un error, una semilla y una cota dada para la semilla.
 def RaizNR(funcion, f_prima, min_error, semilla, cota_semilla): 
     
-    #(semilla,cota) = RaizBiseccion(funcion,lim_inf,lim_sup,0.02)
+    
+    raices = []
+    raiz_vector = []
+    
         
     p = semilla 
     aux = cota_semilla
     
-    print("Iteraciones del método de Newton Raphson:\n")
     i = 0
     
     while abs(aux) > min_error:
@@ -162,17 +157,21 @@ def RaizNR(funcion, f_prima, min_error, semilla, cota_semilla):
       aux = p_next - p
       p= p_next
       i+=1
-      print(i,"°  ",p)
+      
+      num_dig_error = int(np.ceil(abs(np.log10(abs(aux)))))   
+      raiz = np.round(p, num_dig_error) 
+      error = round_up(abs(aux),num_dig_error)      
+      
+      raiz_vector.append(i)
+      raiz_vector.append(raiz)
+      raiz_vector.append(error)
+      raices.append(raiz_vector)
       
       
-    
     print("\nSe hicieron", i, "iteraciones con el método de Newton Raphson\n")
     
-    num_dig_error = int(np.ceil(abs(np.log10(min_error))))   
-    raiz = np.round(p, num_dig_error) 
-    error = round_up(abs(aux),num_dig_error)
     
-    return raiz,error
+    return raices, i
 
 
 
@@ -182,7 +181,10 @@ def RaizNR(funcion, f_prima, min_error, semilla, cota_semilla):
 def RaizNRmodificado(funcion, f_prima, f_segunda, min_error, semilla, cota_semilla):
     
     #(semilla, cota) = RaizBiseccion(funcion, lim_inf, lim_sup, 0.02)
-        
+    
+    raices = []
+    raiz_vector = []
+      
     p = semilla 
     aux = cota_semilla
    
@@ -194,30 +196,18 @@ def RaizNRmodificado(funcion, f_prima, f_segunda, min_error, semilla, cota_semil
       aux = p_next - p
       p = p_next
       i += 1
-      print(i, "°  ", "{0} +- {1}".format(p,abs(aux)))
+      
+      num_dig_error = int(np.ceil(abs(np.log10(abs(aux)))))   
+      raiz = np.round(p, num_dig_error) 
+      error = round_up(abs(aux),num_dig_error)      
+      
+      raiz_vector.append(i)
+      raiz_vector.append(raiz)
+      raiz_vector.append(error)
+      raices.append(raiz_vector)
       
     
     print("\nSe hicieron", i, "iteraciones con el método de Newton Raphson modificado\n")
     
-    num_dig_error = int(np.ceil(abs(np.log10(min_error))))   
-    raiz = np.round(p, num_dig_error)
-    error = round_up(abs(aux),num_dig_error)
     
-    return raiz,error
-
-#%%
-#iMPRESIÓN
-#funcion = f3
-
-#(raiz,error) = RaizBinomial(funcion, lim_inf, lim_sup, min_error)
-
-#(raiz,error) = RaizPF(funcion, lim_inf, lim_sup, min_error)
-
-#(raiz,error) = RaizSecante(funcion, lim_inf, lim_sup, min_error)
-
-#(raiz,error) = RaizNR(funcion, f_prima, lim_inf, lim_sup, min_error)
-
-#(raiz,error) = RaizNRmodifcado(funcion,f_prima,f_segunda, lim_inf, lim_sup, min_error)
-
-#print("El valor de la raiz es:{0} +- {1}".format(raiz,error))
-#print("El valor de la función en la aproximación a la raiz es: ", funcion(raiz))
+    return raices, i

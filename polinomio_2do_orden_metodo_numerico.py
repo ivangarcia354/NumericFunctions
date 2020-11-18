@@ -19,15 +19,17 @@ c = 364
 
 
 
-
+#busqueda de pico de la función
 (semilla, cota_semilla) = br.RaizBiseccion(f_prima, lim_inf, lim_sup, ERROR_BISECCION)
 
 (raizb, errorb) = br.RaizNR(f_prima, f_segunda, min_error, semilla, cota_semilla)
 
+#primer raiz
 (semilla_1, cota_semilla_1) = br.RaizBiseccion(f, lim_inf, raizb, ERROR_BISECCION)
 
 (raiz_x1, error_x1) = br.RaizNR(f, f_prima, min_error, semilla_1, cota_semilla_1)
 
+#segunda raiz
 (semilla_2, cota_semilla_2) = br.RaizBiseccion(f, raizb, lim_sup, ERROR_BISECCION)
 
 (raiz_x2, error_x2) = br.RaizNR(f, f_prima, min_error, semilla_2, cota_semilla_2)
