@@ -17,7 +17,8 @@ a = -9.6e7
 b = 5000
 c = 364 
 
-
+semilla = raices[i-1].pop(1)
+cota = raices[i-1].pop(1)
 
 
 (semilla, cota_semilla) = br.RaizBiseccion(f_prima, lim_inf, lim_sup, ERROR_BISECCION)
