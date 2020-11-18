@@ -11,11 +11,12 @@ ERROR_BISECCION = 0.02
 
 
 #suma de los ultimos digitos de los padrones de los estudiantes del grupo
-s=0
-n=0
+aux = 0
+n = 0
 for i in padrones:
-    s += (int(repr(i)[-1]))
+    aux += (int(repr(i)[-1]))
     n +=1
+s=aux
 porcentaje = s / (n * 9.5)
 
 def V(x):  return np.pi * x** 2 *(3* Radio - x) / 3
@@ -86,17 +87,23 @@ raices.append(raiz_titulo)
 
 
 
-(raiz, error) = br.RaizBiseccion(funcion, lim_inf, lim_sup, ERROR_BISECCION)
+(raices_vector, iteraciones) = br.RaizBiseccion(funcion, lim_inf, lim_sup, ERROR_BISECCION)
 
-semilla_1 = raiz 
-semilla_2 = raiz + error
+semilla_1 = raices_vector[iteraciones-1].pop(1) 
+semilla_2 = raices_vector[iteraciones-1].pop(1) + raices_vector[iteraciones-1].pop(2)
 
 (raiz_secante, error_secante) = br.RaizSecante(funcion, min_error, semilla_1, semilla_2)
 datos_secante.append('Secante')
 datos_secante.append(raiz_secante)
 datos_secante.append(error_secante)
 raices.append(datos_secante)
+print("datos_secante {0} {1} {2}".format(datos_secante[0],datos_secante[1],datos_secante[2]))
 
+(raices_vector, cantidad_iteraciones) = br.RaizBiseccion(funcion, lim_inf, lim_sup, min_error)
+datos_b.append('Biseccion')
+datos_b.append(raices_vector[iteraciones-1].pop(1))
+datos_b.append(raices_vector[iteraciones-1].pop(2))
+raices.append(datos_b)
 
 (raiz_pf, error_pf) = br.RaizPF(funcion, min_error, raiz, error)
 datos_pf.append('RaizPF')
@@ -105,20 +112,13 @@ datos_pf.append(error_pf)
 raices.append(datos_pf)
 
 
-(raiz_biseccion, error_biseccion) = br.RaizBiseccion(funcion, lim_inf, lim_sup, min_error)
-datos_b.append('Biseccion')
-datos_b.append(raiz_biseccion)
-datos_b.append(error_biseccion)
-raices.append(datos_b)
-
-
 (raiz_nr, error_nr) = br.RaizNR(funcion, f_prima, min_error, raiz, error)
 datos_nr.append('NewtonRaphson')
 datos_nr.append(raiz_nr)
 datos_nr.append(error_nr)
 raices.append(datos_nr)
 
-raiz_funcion = []
+
 (raiz_nr_mod, error_nr_mod) = br.RaizNRmodificado(funcion, f_prima, f_segunda, min_error, raiz, error)
 datos_nr_mod.append('NR MOD')
 datos_nr_mod.append(raiz_nr_mod)
@@ -127,11 +127,11 @@ raices.append(datos_nr_mod)
 
 
 print(" Metodo Secante \nEl valor de la raiz es: {0} +- {1} \n Metodo Punto Fijo \nEl valor de la raiz es: {2} +- {3} \n Metodo Biseccion \nEl valor de la raiz es: {4} +- {5} \n  Metodo Newton Raphson \nEl valor de la raiz es: {6} +- {7} \n Metodo NR Modificado\nEl valor de la raiz es: {8} +- {9} \n ".format(raiz_secante, error_secante, raiz_pf, error_pf, raiz_biseccion, error_biseccion, raiz_nr, error_nr, raiz_nr_mod, error_nr_mod))
-print(raices[0])
+
 
 import matplotlib.pyplot as plt
-title_text = 'Raiz y Error'
-footer_text = 'June 24, 2020'
+title_text = 'Biseccion'
+footer_text = 'Analiis Numerico'
 fig_background_color = 'skyblue'
 fig_border = 'lightblue'
 data = raices
@@ -143,7 +143,8 @@ row_headers = [x.pop(0) for x in data]
 # while I'm at it.
 cell_text = []
 for row in data:
-    cell_text.append([f'{x/1000:1.1f}' for x in row])
+    cell_text.append([f'{x}' for x in row])
+    #print(x)
 # Get some lists of color specs for row and column headers
 rcolors = plt.cm.BuPu(np.full(len(row_headers), 0.1))
 ccolors = plt.cm.BuPu(np.full(len(column_headers), 0.1))
@@ -154,7 +155,7 @@ plt.figure(linewidth = 2,
            edgecolor = fig_border,
            facecolor = fig_background_color,
            tight_layout = {'pad':1},
-           figsize=(3,3)
+           figsize = (3,3)
           )
 # Add a table at the bottom of the axes
 the_table = plt.table(cellText = cell_text,
@@ -177,7 +178,7 @@ plt.box(on = None)
 # Add title
 plt.suptitle(title_text)
 # Add footer
-plt.figtext(0.95, 0.05, "Analisis numerico", horizontalalignment='right', size=6, weight='heavy')
+plt.figtext(0.95, 0.05, footer_text, horizontalalignment='right', size=6, weight='heavy')
 # Force the figure to update, so backends center objects correctly within the figure.
 # Without plt.draw() here, the title will center on the axes and not the figure.
 plt.draw()
@@ -189,3 +190,64 @@ plt.savefig('pyplot-table-demo.png',
             facecolor = fig.get_facecolor(),
             dpi = 150
             )    
+
+
+
+
+
+data = raices_vector
+
+# Pop the headers from the data array
+column_headers = data.pop(0)
+row_headers = [x.pop(0) for x in data]
+# Table data needs to be non-numeric text. Format the data
+# while I'm at it.
+cell_text = []
+for row in data:
+    cell_text.append([f'{x}' for x in row])
+    #print(x)
+# Get some lists of color specs for row and column headers
+rcolors = plt.cm.BuPu(np.full(len(row_headers), 0.1))
+ccolors = plt.cm.BuPu(np.full(len(column_headers), 0.1))
+# Create the figure. Setting a small pad on tight_layout
+# seems to better regulate white space. Sometimes experimenting
+# with an explicit figsize here can produce better outcome.
+plt.figure(linewidth = 2,
+           edgecolor = fig_border,
+           facecolor = fig_background_color,
+           tight_layout = {'pad':1},
+           figsize = (3,3)
+          )
+# Add a table at the bottom of the axes
+the_table = plt.table(cellText = cell_text,
+                      rowLabels = row_headers,
+                      rowColours = rcolors,
+                      rowLoc = 'center',
+                      colColours = ccolors,
+                      colLoc = 'center',
+                      colLabels = column_headers,
+                      loc = 'center')
+# Scaling is the only influence we have over top and bottom cell padding.
+# Make the rows taller (i.e., make cell y scale larger).
+the_table.scale(1, 2)
+# Hide axes
+ax = plt.gca()
+ax.get_xaxis().set_visible(False)
+ax.get_yaxis().set_visible(False)
+# Hide axes border
+plt.box(on = None)
+# Add title
+plt.suptitle(title_text)
+# Add footer
+plt.figtext(0.95, 0.05, footer_text, horizontalalignment='right', size=6, weight='heavy')
+# Force the figure to update, so backends center objects correctly within the figure.
+# Without plt.draw() here, the title will center on the axes and not the figure.
+plt.draw()
+# Create image. plt.savefig ignores figure edge and face colors, so map them.
+fig = plt.gcf()
+plt.savefig('pyplot-table-demoa.png',
+            #bbox='tight',
+            edgecolor = fig.get_edgecolor(),
+            facecolor = fig.get_facecolor(),
+            dpi = 150
+            )

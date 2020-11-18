@@ -3,6 +3,9 @@ import sys
 
 
 MSG_ERROR_COTAS = "Error de selección de cotas"
+
+
+
 #raiz_error = [raiz[], error[]]
 
 #ecuaciones de las funciones a estudiar
@@ -34,6 +37,9 @@ def bisección(a,b): return (b+a)/2
 #BISECCIÓN
 def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
   
+    raices = []
+    raiz_vector = []
+
     if ((funcion(lim_inf) * funcion(lim_sup) >= 0) | (lim_inf > lim_sup)):  
         sys.exit(MSG_ERROR_COTAS)
       
@@ -50,23 +56,32 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
         p = bisección(a, b)
         ep = abs(b - p)
         i += 1
-        print(i, "°  ", "{0} +- {1}".format(p,ep))
+
+       
+        #print(i, "°  ", "{0} +- {1}".format(p,ep))
 
         if (funcion(p) * funcion(b)) < 0:
             a = p
         elif (funcion(p) * funcion(a)) < 0:
             b = p
         else :
-            ep=2.2250738585072009e-308
+            ep = 2.2250738585072009e-308
             break
+
+        num_dig_error = int(np.ceil(abs(np.log10(ep))))   
+        raiz = np.round(p, num_dig_error) 
+        error = round_up(abs(ep),num_dig_error)
+    
+        
+        raiz_vector.append(i)
+        raiz_vector.append(raiz)
+        raiz_vector.append(error)
+        raices.append(raiz_vector)
             
-    print("Se hicieron",i,"iteraciones con el método de bisección\n")
+    print("Se hicieron", i, "iteraciones con el método de bisección\n")
     
-    num_dig_error = int(np.ceil(abs(np.log10(min_error))))   
-    raiz = np.round(p, num_dig_error) 
-    error = round_up(abs(ep),num_dig_error)
-    
-    return raiz,error
+  
+    return raices, i
 
 #%%
 #SECANTE Debe recibir una funcion a analizar, un error, una semilla y una cota para la semilla dada.
