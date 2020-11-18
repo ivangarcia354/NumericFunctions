@@ -6,7 +6,7 @@ padrones = 103887, 104181, 103839, 104606
 Radio = 4.25
 lim_inf = 4
 lim_sup = 6
-min_error = 1 * 10**(-13)
+min_error = 1 * 10**(-5)
 ERROR_BISECCION = 0.02
 
 
@@ -72,10 +72,20 @@ plt.show()
 #MÉTODOS DE BUQUEDA DE RAICES
 funcion = f1
 
+matriz_semilla_1 = []
+iteraciones_1 = 0
+matriz_biseccion = []
+iteraciones_biseccion = 0
+matriz_secante = []
+iteraciones_secante = 0
+matriz_PF = []
+iteraciones_PF = 0
+matriz_NR = []
+iteraciones_NR = 0
+"""
 raices = []
 raiz_funcion = []
 datos_nr_mod = []
-datos_secante = []
 datos_pf = []
 datos_b = []
 datos_nr = []
@@ -84,51 +94,40 @@ raiz_titulo = []
 raiz_titulo.append('Raiz')
 raiz_titulo.append('Error')
 raices.append(raiz_titulo)
+"""
+
+#%%
+#busqueda de semilla
+(matriz_semilla_1, iteraciones_1) = br.RaizBiseccion(funcion, lim_inf, lim_sup, ERROR_BISECCION)
+
+semilla = matriz_semilla_1[iteraciones_1-1].pop(1) 
+cota_semilla = matriz_semilla_1[iteraciones_1-1].pop(2)
+
+#%%
+
+#(matriz_biseccion, iteraciones_biseccion) = br.RaizBiseccion(funcion, lim_inf, lim_sup, min_error)
+#print("\nBisección:\n",matriz_biseccion)
+semilla_1 = semilla
+semilla_2 = semilla + cota_semilla
+
+(matriz_secante, iteraciones_secante) = br.RaizSecante(funcion, min_error, semilla_1, semilla_2)
+print("\nSecante:\n",matriz_secante)
+#print("datos_secante {0} {1} {2}".format(matriz_secante[iteraciones_secante-1].pop(1) ,matriz_secante[iteraciones_secante-1].pop(2),matriz_secante[iteraciones_secante-1].pop(3)))
 
 
 
-(raices_vector, iteraciones) = br.RaizBiseccion(funcion, lim_inf, lim_sup, ERROR_BISECCION)
+(matriz_PF, iteraciones_PF) = br.RaizPF(funcion, min_error, semilla, cota_semilla)
+print("\nPF:\n",matriz_PF)
 
-semilla_1 = raices_vector[iteraciones-1].pop(1) 
-semilla_2 = raices_vector[iteraciones-1].pop(1) + raices_vector[iteraciones-1].pop(2)
+(matriz_NR, iteraciones_NR) = br.RaizNR(funcion, f_prima, min_error, semilla, cota_semilla)
+print("\nNR:\n",matriz_NR)
 
-(raiz_secante, error_secante) = br.RaizSecante(funcion, min_error, semilla_1, semilla_2)
-datos_secante.append('Secante')
-datos_secante.append(raiz_secante)
-datos_secante.append(error_secante)
-raices.append(datos_secante)
-print("datos_secante {0} {1} {2}".format(datos_secante[0],datos_secante[1],datos_secante[2]))
+(matriz_NRM, iteraciones_NRM) = br.RaizNRmodificado(funcion, f_prima, f_segunda, min_error, semilla, cota_semilla)
+print("\nNRM:\n",matriz_NRM)
 
-(raices_vector, cantidad_iteraciones) = br.RaizBiseccion(funcion, lim_inf, lim_sup, min_error)
-datos_b.append('Biseccion')
-datos_b.append(raices_vector[iteraciones-1].pop(1))
-datos_b.append(raices_vector[iteraciones-1].pop(2))
-raices.append(datos_b)
+#print(" Metodo Secante \nEl valor de la raiz es: {0} +- {1} \n Metodo Punto Fijo \nEl valor de la raiz es: {2} +- {3} \n Metodo Biseccion \nEl valor de la raiz es: {4} +- {5} \n  Metodo Newton Raphson \nEl valor de la raiz es: {6} +- {7} \n Metodo NR Modificado\nEl valor de la raiz es: {8} +- {9} \n ".format(raiz_secante, error_secante, raiz_pf, error_pf, raiz_biseccion, error_biseccion, raiz_nr, error_nr, raiz_nr_mod, error_nr_mod))
 
-(raiz_pf, error_pf) = br.RaizPF(funcion, min_error, raiz, error)
-datos_pf.append('RaizPF')
-datos_pf.append(raiz_pf)
-datos_pf.append(error_pf)
-raices.append(datos_pf)
-
-
-(raiz_nr, error_nr) = br.RaizNR(funcion, f_prima, min_error, raiz, error)
-datos_nr.append('NewtonRaphson')
-datos_nr.append(raiz_nr)
-datos_nr.append(error_nr)
-raices.append(datos_nr)
-
-
-(raiz_nr_mod, error_nr_mod) = br.RaizNRmodificado(funcion, f_prima, f_segunda, min_error, raiz, error)
-datos_nr_mod.append('NR MOD')
-datos_nr_mod.append(raiz_nr_mod)
-datos_nr_mod.append(error_nr_mod)
-raices.append(datos_nr_mod)
-
-
-print(" Metodo Secante \nEl valor de la raiz es: {0} +- {1} \n Metodo Punto Fijo \nEl valor de la raiz es: {2} +- {3} \n Metodo Biseccion \nEl valor de la raiz es: {4} +- {5} \n  Metodo Newton Raphson \nEl valor de la raiz es: {6} +- {7} \n Metodo NR Modificado\nEl valor de la raiz es: {8} +- {9} \n ".format(raiz_secante, error_secante, raiz_pf, error_pf, raiz_biseccion, error_biseccion, raiz_nr, error_nr, raiz_nr_mod, error_nr_mod))
-
-
+"""
 import matplotlib.pyplot as plt
 title_text = 'Biseccion'
 footer_text = 'Analiis Numerico'
@@ -251,3 +250,4 @@ plt.savefig('pyplot-table-demoa.png',
             facecolor = fig.get_facecolor(),
             dpi = 150
             )
+"""
