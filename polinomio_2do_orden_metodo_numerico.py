@@ -1,5 +1,6 @@
 import BusquedaRaices as br
 import numpy as np
+import sys
 
 def f(t): return  a*t**2 + b*t + c      
 
