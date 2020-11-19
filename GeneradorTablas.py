@@ -109,7 +109,7 @@ def GenerarTabla(data, iteraciones, title_text, file_name):
   plt.draw()
   # Create image. plt.savefig ignores figure edge and face colors, so map them.
   fig = plt.gcf()
-  plt.savefig(file_name + '.png',
+  plt.savefig('imagenes/'+file_name + '.png',
               #bbox='tight',
               edgecolor = fig.get_edgecolor(),
               facecolor = fig.get_facecolor(),
@@ -124,23 +124,24 @@ def GeneraeConvGrafico(data, iteraciones, title_text, file_name):
     y2=[]
     i=0
     if(iteraciones>3):
-        while i<4:
+        while i<=3:
             data.pop(0)
             i+=1
-    
+    else: return
     for i in data:
         x.append(i[0])
         y1.append(i[3])
         y2.append(i[4])
+        print(x,y1,y2)
         
     fig, axs = plt.subplots(1, 2, figsize=(12, 4), sharey=False)
     
-    axs[0].plot(x,y1)
+    axs[0].scatter(x,y1)
     axs[0].set_title('lambda',fontsize=10)
     axs[0].set_xlabel('Iteraciones',fontsize=15)
     axs[0].grid(True)
     
-    axs[1].plot(x,y2)
+    axs[1].scatter(x,y2)
     axs[1].set_title('convergencia P',fontsize=10)
     axs[1].set_xlabel('Iteraciones',fontsize=15)
     axs[1].grid(True)
@@ -148,7 +149,7 @@ def GeneraeConvGrafico(data, iteraciones, title_text, file_name):
     
     fig.suptitle(title_text)
     
-    plt.savefig(file_name + '.png',
+    plt.savefig('imagenes/'+file_name + '.png',
               #bbox='tight',
               edgecolor = fig.get_edgecolor(),
               facecolor = fig.get_facecolor(),
