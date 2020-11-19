@@ -4,7 +4,7 @@ import sys
 # Este archivo contiene todos los métodos numéricos utilizados en el Trabajo Práctico 1
 
 MSG_ERROR_COTAS = "Error de selección de cotas"
-
+ERROR_COMPU = 2.2250738585072009e-308
 
 #%%
 #funciones 
@@ -43,7 +43,7 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
 				elif (funcion(p) * funcion(a)) < 0:
 						b = p
 				else :
-						ep = 2.2250738585072009e-308
+						ep = ERROR_COMPU
 						break
 
 				num_dig_error = int(np.ceil(abs(np.log10(ep))))   
@@ -52,8 +52,8 @@ def RaizBiseccion(funcion, lim_inf, lim_sup, min_error):
 
 				
 				if i > 3 :
-					landa = 0.5 # TODO REVISAR COMO OBTENERLOS
-					conv = 1 # TODO REVISAR COMO OBTENERLOS
+					landa = 0.5 
+					conv = 1 
 				
 				else:
 					landa = ""
@@ -89,38 +89,44 @@ def RaizSecante(funcion, min_error, semilla_1, semilla_2):
 		i = 0
 		
 		while abs(aux) > min_error:
-        		p_next = p - ( ( funcion(p) * (p - p_prev ) ) / ( funcion(p) - funcion(p_prev) ) )
-        		aux = p_next  - p
-        		i+=1
-                
-        		num_dig_error = int(np.ceil(abs(np.log10(abs(aux)))))   
-        		raiz = np.round(p_next, num_dig_error) 
-        		error = round_up(abs(aux), num_dig_error)
-                
-        		if i > 3 :
+			p_next = p - ( ( funcion(p) * (p - p_prev ) ) / ( funcion(p) - funcion(p_prev) ) )
+			aux = p_next  - p
+			i+=1
+			
+			if(aux == 0):
+				raiz = p_next
+				error = ERROR_COMPU
+			else:
+				num_dig_error = int(np.ceil(abs(np.log10(abs(aux)))))   
+				raiz = np.round(p_next, num_dig_error) 
+				error = round_up(abs(aux),num_dig_error)
 
-        				delta_1 = abs(p_prev - p_prev2)
-        				delta_2 = abs(p - p_prev)
-        				delta_3 = abs(p_next - p)
-        				conv = np.log(delta_2 / delta_3)/np.log(delta_1 / delta_2)
-        				landa = delta_3 / (delta_2**conv)
-        				conv = format(conv, '.4g')
-        				landa = format(landa, '.4g')
-        		else:
-        				landa = ""
-        				conv = ""
-        		p_prev2 = p_prev
-        		p_prev = p
-        		p = p_next
+			
+			
+			if i > 3 :
 
-        		raiz_vector = []
-        		raiz_vector.append(i)
-        		raiz_vector.append(raiz)
-        		raiz_vector.append(error)
-        		raiz_vector.append(landa)
-        		raiz_vector.append(conv)
-        		matriz.append(raiz_vector)
-            
+				delta_1 = abs(p_prev - p_prev2)
+				delta_2 = abs(p - p_prev)
+				delta_3 = abs(p_next - p)
+				conv = np.log(delta_2 / delta_3)/np.log(delta_1 / delta_2)
+				landa = delta_3 / (delta_2**conv)
+				conv = format(conv, '.4g')
+				landa = format(landa, '.4g')
+			else:
+				landa = ""
+				conv = ""
+			p_prev2 = p_prev
+			p_prev = p
+			p = p_next
+
+			raiz_vector = []
+			raiz_vector.append(i)
+			raiz_vector.append(raiz)
+			raiz_vector.append(error)
+			raiz_vector.append(landa)
+			raiz_vector.append(conv)
+			matriz.append(raiz_vector)
+		
 		print("\nSe hicieron", i, "iteraciones con el método de la secante\n")
 		
 		return matriz, i
@@ -142,38 +148,46 @@ def RaizPF(funcion, min_error, semilla, cota_semilla):
 		
 		i = 0
 		while abs(aux) > min_error:
-				p_next = g(p)
-				aux =(p_next - p)
-
-				i += 1
-
+				
+			p_next = g(p)
+			aux =(p_next - p)
+			
+			i += 1
+			
+			if(aux == 0):
+				raiz = p_next
+				error = ERROR_COMPU
+			else:
 				num_dig_error = int(np.ceil(abs(np.log10(abs(aux)))))   
 				raiz = np.round(p_next, num_dig_error) 
-				error = round_up(abs(aux),num_dig_error)      
+				error = round_up(abs(aux),num_dig_error)
 
-				if i > 3 :
-						delta_1 = abs(p_prev - p_prev2)
-						delta_2 = abs(p - p_prev)
-						delta_3 = abs(p_next - p)
-						conv = np.log(delta_2 / delta_3)/np.log(delta_1 / delta_2)
-						landa = delta_3 / (delta_2**conv)
-						conv = format(conv, '.4g')
-						landa = format(landa, '.4g')
-				else:
-						landa = ""
-						conv = ""
-				p_prev2 = p_prev
-				p_prev = p
-				p = p_next
+			
+			if i > 3 :
 
-				raiz_vector = []
-				raiz_vector.append(i)
-				raiz_vector.append(raiz)
-				raiz_vector.append(error)
-				raiz_vector.append(landa)
-				raiz_vector.append(conv)
-				matriz.append(raiz_vector)
+				delta_1 = abs(p_prev - p_prev2)
+				delta_2 = abs(p - p_prev)
+				delta_3 = abs(p_next - p)
+				conv = np.log(delta_2 / delta_3)/np.log(delta_1 / delta_2)
+				landa = delta_3 / (delta_2**conv)
+				conv = format(conv, '.4g')
+				landa = format(landa, '.4g')
+			else:
+				landa = ""
+				conv = ""
+			p_prev2 = p_prev
+			p_prev = p
+			p = p_next
 
+			
+			raiz_vector = []
+			raiz_vector.append(i)
+			raiz_vector.append(raiz)
+			raiz_vector.append(error)
+			raiz_vector.append(landa)
+			raiz_vector.append(conv)
+			matriz.append(raiz_vector)
+		
 		print("\nSe hicieron", i, "iteraciones con el método de Punto Fijo\n")
 		
 		return matriz, i
@@ -194,39 +208,45 @@ def RaizNR(funcion, f_prima, min_error, semilla, cota_semilla):
 		i = 0
 		
 		while abs(aux) > min_error:
-				p_next = p - (funcion(p) / f_prima(p))
-				aux = p_next - p
-
-				i+=1
+			p_next = p - (funcion(p) / f_prima(p))
+			aux = p_next - p
+			
+			i += 1
+			
+			
+			if(aux == 0):
+				raiz = p_next
+				error = ERROR_COMPU
+			else:
 				num_dig_error = int(np.ceil(abs(np.log10(abs(aux)))))   
 				raiz = np.round(p_next, num_dig_error) 
 				error = round_up(abs(aux),num_dig_error)
 
-				if i > 3 :
+			if i > 3 :
 
-						delta_1 = abs(p_prev - p_prev2)
-						delta_2 = abs(p - p_prev)
-						delta_3 = abs(p_next - p)
-						conv = np.log(delta_2 / delta_3)/np.log(delta_1 / delta_2)
-						landa = delta_3 / (delta_2**conv)
-						conv = format(conv, '.4g')
-						landa = format(landa, '.4g')
-				else:
-						landa = ""
-						conv = ""  
+				delta_1 = abs(p_prev - p_prev2)
+				delta_2 = abs(p - p_prev)
+				delta_3 = abs(p_next - p)
+				conv = np.log(delta_2 / delta_3)/np.log(delta_1 / delta_2)
+				landa = delta_3 / (delta_2**conv)
+				conv = format(conv, '.4g')
+				landa = format(landa, '.4g')
+			else:
+				landa = ""
+				conv = ""  
 
-				p_prev2 = p_prev
-				p_prev = p
-				p = p_next    
-
-				raiz_vector = []
-				raiz_vector.append(i)
-				raiz_vector.append(raiz)
-				raiz_vector.append(error)
-				raiz_vector.append(landa)
-				raiz_vector.append(conv)
-				matriz.append(raiz_vector)
-
+			p_prev2 = p_prev
+			p_prev = p
+			p = p_next    
+			
+			raiz_vector = []
+			raiz_vector.append(i)
+			raiz_vector.append(raiz)
+			raiz_vector.append(error)
+			raiz_vector.append(landa)
+			raiz_vector.append(conv)
+			matriz.append(raiz_vector)
+			
 			
 		print("\nSe hicieron", i, "iteraciones con el método de Newton Raphson\n")
 		
@@ -246,39 +266,47 @@ def RaizNRmodificado(funcion, f_prima, f_segunda, min_error, semilla, cota_semil
 		p_prev2 = 0
 	 
 		i = 0
+		
 		while abs(aux) > min_error:
-				p_next = p - ((funcion(p) * f_prima(p)) / (( f_prima(p)) ** 2 - (funcion(p) * f_segunda(p))))
-				aux = p_next - p
-				i += 1
+			p_next = p - (funcion(p) * f_prima(p)) / (( f_prima(p)) ** 2 - funcion(p) * f_segunda(p))
+			aux = p_next - p
+			
+			i += 1
+			
+			if(aux == 0):
+				raiz = p_next
+				error = ERROR_COMPU
+			else:
 				num_dig_error = int(np.ceil(abs(np.log10(abs(aux)))))   
 				raiz = np.round(p_next, num_dig_error) 
-				error = round_up(abs(aux),num_dig_error)      
-				if i > 3 :
+				error = round_up(abs(aux),num_dig_error)
+			
+			if i > 3 :
 
-						delta_1 = abs(p_prev - p_prev2)
-						delta_2 = abs(p - p_prev)
-						delta_3 = abs(p_next - p)
-						conv = np.log(delta_2 / delta_3)/np.log(delta_1 / delta_2)
-						landa = delta_3 / (delta_2**conv)
-						conv = format(conv, '.4g')
-						landa = format(landa, '.4g')
-				
-				else:
-						landa = ""
-						conv = "" 
-                        
-				p_prev2 = p_prev
-				p_prev = p
-				p = p_next
-				raiz_vector = []
-				raiz_vector.append(i)
-				raiz_vector.append(raiz)
-				raiz_vector.append(error)
-				raiz_vector.append(landa)
-				raiz_vector.append(conv)
-				matriz.append(raiz_vector)
+				delta_1 = abs(p_prev - p_prev2)
+				delta_2 = abs(p - p_prev)
+				delta_3 = abs(p_next - p)
+				conv = np.log(delta_2 / delta_3)/np.log(delta_1 / delta_2)
+				landa = delta_3 / (delta_2**conv)
+				conv = format(conv, '.4g')
+				landa = format(landa, '.4g')
+			else:
+				landa = ""
+				conv = ""  
 
-            
+			p_prev2 = p_prev
+			p_prev = p
+			p = p_next
+
+			raiz_vector = []
+			raiz_vector.append(i)
+			raiz_vector.append(raiz)
+			raiz_vector.append(error)
+			raiz_vector.append(landa)
+			raiz_vector.append(conv)
+			matriz.append(raiz_vector)
+			
+		
 		print("\nSe hicieron", i, "iteraciones con el método de Newton Raphson modificado\n")
 		
 		

@@ -6,7 +6,7 @@ padrones = 103887, 104181, 103839, 104606
 Radio = 4.25
 lim_inf = 4
 lim_sup = 6
-min_error = 1 * 10**(-13)
+max_error = 1 * 10**(-13)
 ERROR_BISECCION = 0.02
 
 
@@ -94,26 +94,26 @@ cota_semilla = (matriz_semilla_1[iteraciones_1 - 1])[2]
 #%%
 header = ["Iteración", "Resultado", "Error", "Lambda", "p"]
 
-(matriz_biseccion, iteraciones_biseccion) = br.RaizBiseccion(funcion, lim_inf, lim_sup, min_error)
+(matriz_biseccion, iteraciones_biseccion) = br.RaizBiseccion(funcion, lim_inf, lim_sup, max_error)
 matriz_biseccion.insert(0, header)
-tb.GenerarTabla(matriz_biseccion, iteraciones_biseccion, "Biseccion", "Biseccion_graph")
+tb.GenerarTabla(matriz_biseccion, iteraciones_biseccion, "Biseccion con Error "+ str(max_error), "Biseccion_graph_"+ str(max_error))
 semilla_1 = semilla
 semilla_2 = semilla + cota_semilla
 
-(matriz_secante, iteraciones_secante) = br.RaizSecante(funcion, min_error, semilla_1, semilla_2)
+(matriz_secante, iteraciones_secante) = br.RaizSecante(funcion, max_error, semilla_1, semilla_2)
 matriz_secante.insert(0, header)
-tb.GenerarTabla(matriz_secante, iteraciones_secante, "Secante", "Secante_graph")
+tb.GenerarTabla(matriz_secante, iteraciones_secante, "Secante con Error " + str(max_error), "Secante_graph_"+ str(max_error))
 
 
-(matriz_PF, iteraciones_PF) = br.RaizPF(funcion, min_error, semilla, cota_semilla)
+(matriz_PF, iteraciones_PF) = br.RaizPF(funcion, max_error, semilla, cota_semilla)
 matriz_PF.insert(0,header)
-tb.GenerarTabla(matriz_PF, iteraciones_PF, "PuntoFijo", "PuntoFijo_graph")
+tb.GenerarTabla(matriz_PF, iteraciones_PF, "PuntoFijo con Error " + str(max_error), "PuntoFijo_graph_"+ str(max_error))
 
-(matriz_NR, iteraciones_NR) = br.RaizNR(funcion, f_prima, min_error, semilla, cota_semilla)
+(matriz_NR, iteraciones_NR) = br.RaizNR(funcion, f_prima, max_error, semilla, cota_semilla)
 matriz_NR.insert(0, header)
-tb.GenerarTabla(matriz_NR, iteraciones_NR, "NR", "NR_graph")
+tb.GenerarTabla(matriz_NR, iteraciones_NR, "NR con Error " + str(max_error), "NR_graph_"+ str(max_error))
 
-(matriz_NRM, iteraciones_NRM) = br.RaizNRmodificado(funcion, f_prima, f_segunda, min_error, semilla, cota_semilla)
+(matriz_NRM, iteraciones_NRM) = br.RaizNRmodificado(funcion, f_prima, f_segunda, max_error, semilla, cota_semilla)
 matriz_NRM.insert(0,header)
-tb.GenerarTabla(matriz_NRM, iteraciones_NRM, "NR Modificado", "NrMod_graph")
+tb.GenerarTabla(matriz_NRM, iteraciones_NRM, "NR Modificado con Error " + str(max_error), "NrMod_graph"+ str(max_error))
 
