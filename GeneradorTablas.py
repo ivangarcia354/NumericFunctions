@@ -84,17 +84,45 @@ def GeneraeConvTabla(data, iteraciones, title_text, file_name):
     x=[]
     y1=[]
     y2=[]
-    
-    data.pop(0)
+    i=0
+    while i<4:
+        data.pop(0)
+        i+=1
     
     for i in data:
         x.append(i[0])
         y1.append(i[3])
         y2.append(i[4])
+        
+    fig, axs = plt.subplots(1, 2, figsize=(12, 4), sharey=True)
+    
+    axs[0].plot(x,y1)
+    plt.ylabel('lambda',fontsize=10)
+    plt.xlabel('Iteraciones',fontsize=15)
+    plt.grid(True)
+    
+    
+    axs[1].plot(x,y2)
+    plt.ylabel('convergencia P',fontsize=10)
+    plt.xlabel('Iteraciones',fontsize=15)
+    plt.grid(True)
+    
+    
+    fig.suptitle(title_text)
+    
+    plt.savefig(file_name + '.png',
+              #bbox='tight',
+              edgecolor = fig.get_edgecolor(),
+              facecolor = fig.get_facecolor(),
+              dpi = 150
+              ) 
+    
+
+    return
+""" 
     fig, axs = plt.subplots(1, 2, figsize=(9, 3), sharey=True)
     axs[0].plot(x,y1)
-    axs[1].plot(x,y2)
-    
+    axs[1].plot(x,y2)   
     fig.suptitle(title_text)
     plt.savefig(file_name + '.png',
               #bbox='tight',
@@ -102,4 +130,5 @@ def GeneraeConvTabla(data, iteraciones, title_text, file_name):
               facecolor = fig.get_facecolor(),
               dpi = 150
               ) 
-    return
+    
+  """  

@@ -67,7 +67,6 @@ plt.grid(True)
 
 plt.tight_layout(pad=5,rect =(0,0,3,1.5))
 plt.show()
-
 #%%
 #MÉTODOS DE BUQUEDA DE RAICES
 funcion = f1
