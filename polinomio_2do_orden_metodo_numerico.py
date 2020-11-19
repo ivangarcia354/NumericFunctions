@@ -10,6 +10,7 @@ def f_segunda(t): return 2*a
 ERROR_BISECCION = 0.02
 MSG_ERROR_RAIZ = "La raiz no es real\n"
 
+# Los siguientes valores se pueden modificar para hacer pruebas
 min_error = 10**(-13)
 lim_sup = 40
 lim_inf = -10
