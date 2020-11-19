@@ -122,16 +122,18 @@ def GeneraeConvGrafico(data, iteraciones, title_text, file_name):
     x=[]
     y1=[]
     y2=[]
-    i=0
+    i=1
+    iteraciones
     if(iteraciones>3):
         while i<=3:
             data.pop(0)
             i+=1
+    
     else: return
-    for i in data:
-        x.append(i[0])
-        y1.append(i[3])
-        y2.append(i[4])
+    for k in data:
+        x.append(k[0])
+        y1.append(k[3])
+        y2.append(k[4])
         print(x,y1,y2)
         
     fig, axs = plt.subplots(1, 2, figsize=(12, 4), sharey=False)
