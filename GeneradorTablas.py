@@ -1,6 +1,44 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+def Graficarfunciones(f1,f2,f_prima,f_segunda,Radio):
+    x = np.arange(0., 2 * Radio, 0.01)
+    
+    #configuración f1(x) y f2(x) gráfico
+    ax = plt.subplot(131)
+    
+    y1 = f1(x)
+    y2 = f2(x)
+    ax.plot(x,y1,color='r',label='f1(x)')
+    ax.plot(x,y2,color='b',label='f2(x)')
+    plt.ylabel('f1 [m^3] , f2 [m^3]',fontsize=10)
+    plt.xlabel('Altura [m]',fontsize=15)
+    plt.grid(True)
+    plt.legend()
+    
+    #configuración f_prima(x) gráfico
+    ax = plt.subplot(132)
+    
+    y3 = f_prima(x)
+    ax.plot(x,y3,color='c',label='f \'(x)')
+    plt.ylabel('f \' [m^2]',fontsize=10)
+    plt.xlabel('Altura [m]',fontsize=15)
+    plt.grid(True)
+    plt.legend()
+    
+    #configuración f_segunda(x) gráfico
+    ax = plt.subplot(133)
+    
+    y4 = f_segunda(x)
+    ax.plot(x,y4,color='m',label='f \'\'(x)')
+    plt.ylabel('f \'\' [m]',fontsize=10)
+    plt.xlabel('Altura [m]',fontsize=15)
+    plt.legend()
+    plt.grid(True)
+    
+    plt.tight_layout(pad=5,rect =(0,0,3,1.5))
+    plt.show()
+    return
 
 def GenerarTabla(data, iteraciones, title_text, file_name):
 
@@ -79,33 +117,33 @@ def GenerarTabla(data, iteraciones, title_text, file_name):
               )    
   return
 
-def GeneraeConvTabla(data, iteraciones, title_text, file_name):
+def GeneraeConvGrafico(data, iteraciones, title_text, file_name):
     
     x=[]
     y1=[]
     y2=[]
     i=0
-    while i<4:
-        data.pop(0)
-        i+=1
+    if(iteraciones>3):
+        while i<4:
+            data.pop(0)
+            i+=1
     
     for i in data:
         x.append(i[0])
         y1.append(i[3])
         y2.append(i[4])
         
-    fig, axs = plt.subplots(1, 2, figsize=(12, 4), sharey=True)
+    fig, axs = plt.subplots(1, 2, figsize=(12, 4), sharey=False)
     
     axs[0].plot(x,y1)
-    plt.ylabel('lambda',fontsize=10)
-    plt.xlabel('Iteraciones',fontsize=15)
-    plt.grid(True)
-    
+    axs[0].set_title('lambda',fontsize=10)
+    axs[0].set_xlabel('Iteraciones',fontsize=15)
+    axs[0].grid(True)
     
     axs[1].plot(x,y2)
-    plt.ylabel('convergencia P',fontsize=10)
-    plt.xlabel('Iteraciones',fontsize=15)
-    plt.grid(True)
+    axs[1].set_title('convergencia P',fontsize=10)
+    axs[1].set_xlabel('Iteraciones',fontsize=15)
+    axs[1].grid(True)
     
     
     fig.suptitle(title_text)
@@ -119,16 +157,3 @@ def GeneraeConvTabla(data, iteraciones, title_text, file_name):
     
 
     return
-""" 
-    fig, axs = plt.subplots(1, 2, figsize=(9, 3), sharey=True)
-    axs[0].plot(x,y1)
-    axs[1].plot(x,y2)   
-    fig.suptitle(title_text)
-    plt.savefig(file_name + '.png',
-              #bbox='tight',
-              edgecolor = fig.get_edgecolor(),
-              facecolor = fig.get_facecolor(),
-              dpi = 150
-              ) 
-    
-  """  
