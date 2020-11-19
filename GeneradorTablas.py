@@ -78,3 +78,28 @@ def GenerarTabla(data, iteraciones, title_text, file_name):
               dpi = 150
               )    
   return
+
+def GeneraeConvTabla(data, iteraciones, title_text, file_name):
+    
+    x=[]
+    y1=[]
+    y2=[]
+    
+    data.pop(0)
+    
+    for i in data:
+        x.append(i[0])
+        y1.append(i[3])
+        y2.append(i[4])
+    fig, axs = plt.subplots(1, 2, figsize=(9, 3), sharey=True)
+    axs[0].plot(x,y1)
+    axs[1].plot(x,y2)
+    
+    fig.suptitle(title_text)
+    plt.savefig(file_name + '.png',
+              #bbox='tight',
+              edgecolor = fig.get_edgecolor(),
+              facecolor = fig.get_facecolor(),
+              dpi = 150
+              ) 
+    return

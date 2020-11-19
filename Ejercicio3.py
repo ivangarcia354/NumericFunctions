@@ -90,6 +90,10 @@ iteraciones_NR = 0
 
 semilla = (matriz_semilla_1[iteraciones_1 - 1])[1]
 cota_semilla = (matriz_semilla_1[iteraciones_1 - 1])[2]
+#para secante
+
+semilla_1 = semilla
+semilla_2 = semilla + cota_semilla
 
 #%%
 header = ["Iteración", "Resultado", "Error", "Lambda", "p"]
@@ -97,23 +101,27 @@ header = ["Iteración", "Resultado", "Error", "Lambda", "p"]
 (matriz_biseccion, iteraciones_biseccion) = br.RaizBiseccion(funcion, lim_inf, lim_sup, max_error)
 matriz_biseccion.insert(0, header)
 tb.GenerarTabla(matriz_biseccion, iteraciones_biseccion, "Biseccion con Error "+ str(max_error), "Biseccion_graph_"+ str(max_error))
-semilla_1 = semilla
-semilla_2 = semilla + cota_semilla
+tb.GeneraeConvTabla(matriz_biseccion, iteraciones_biseccion, "Bisección convergencia", "Bisecció´n_graph_convergenia"+ str(max_error))
+
 
 (matriz_secante, iteraciones_secante) = br.RaizSecante(funcion, max_error, semilla_1, semilla_2)
 matriz_secante.insert(0, header)
 tb.GenerarTabla(matriz_secante, iteraciones_secante, "Secante con Error " + str(max_error), "Secante_graph_"+ str(max_error))
+tb.GeneraeConvTabla(matriz_secante, iteraciones_secante, "Secante convergencia", "Secante_graph_convergenia"+ str(max_error))
 
 
 (matriz_PF, iteraciones_PF) = br.RaizPF(funcion, max_error, semilla, cota_semilla)
 matriz_PF.insert(0,header)
 tb.GenerarTabla(matriz_PF, iteraciones_PF, "PuntoFijo con Error " + str(max_error), "PuntoFijo_graph_"+ str(max_error))
+tb.GeneraeConvTabla(matriz_PF, iteraciones_PF, "PuntoFijo convergencia","PuntoFijo_graph_convergenia"+ str(max_error))
 
 (matriz_NR, iteraciones_NR) = br.RaizNR(funcion, f_prima, max_error, semilla, cota_semilla)
 matriz_NR.insert(0, header)
 tb.GenerarTabla(matriz_NR, iteraciones_NR, "NR con Error " + str(max_error), "NR_graph_"+ str(max_error))
+tb.GeneraeConvTabla(matriz_NR, iteraciones_NR, "NR convergencia", "NR_graph_convergenia"+ str(max_error))
 
 (matriz_NRM, iteraciones_NRM) = br.RaizNRmodificado(funcion, f_prima, f_segunda, max_error, semilla, cota_semilla)
 matriz_NRM.insert(0,header)
 tb.GenerarTabla(matriz_NRM, iteraciones_NRM, "NR Modificado con Error " + str(max_error), "NrMod_graph"+ str(max_error))
+tb.GeneraeConvTabla(matriz_NRM, iteraciones_NRM, "NR Modificado convergencia", "NRMod_graph_convergenia"+ str(max_error))
 
