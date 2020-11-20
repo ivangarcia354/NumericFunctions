@@ -9,7 +9,7 @@ Radio = 4.25
 lim_inf = 4
 lim_sup = 6
 
-max_error = 1 * 10**(-13)
+max_error = 1 * 10**(-5)
 
 ERROR_BISECCION = 0.02
 
@@ -84,9 +84,10 @@ semilla_2 = semilla + cota_semilla
 #%%Generación de gráficos
 print("Generándose los gráficos...espere porfavor\n")
 header = ["Iteración", "Resultado", "Error", "Lambda", "p"]
-"""
+
 matriz_biseccion.insert(0, header)
 tb.GenerarTabla(matriz_biseccion, iteraciones_biseccion, "Bisección con Error "+ str(max_error), "Bisección_graph_"+ str(max_error))
+matriz_biseccion.pop(0)
 tb.GeneraeConvGrafico(matriz_biseccion, iteraciones_biseccion, "Bisección convergencia", "Bisección_graph_convergenia"+ str(max_error))
 
 matriz_secante.insert(0, header)
@@ -100,7 +101,7 @@ tb.GeneraeConvGrafico(matriz_PF, iteraciones_PF, "PuntoFijo convergencia","Punto
 matriz_NR.insert(0, header)
 tb.GenerarTabla(matriz_NR, iteraciones_NR, "NR con Error " + str(max_error), "NR_graph_"+ str(max_error))
 tb.GeneraeConvGrafico(matriz_NR, iteraciones_NR, "NR convergencia", "NR_graph_convergenia"+ str(max_error))
-"""
+
 matriz_NRM.insert(0,header)
 tb.GenerarTabla(matriz_NRM, iteraciones_NRM, "NR Modificado con Error " + str(max_error), "NrMod_graph"+ str(max_error))
 tb.GeneraeConvGrafico(matriz_NRM, iteraciones_NRM, "NR Modificado convergencia", "NRMod_graph_convergenia"+ str(max_error))

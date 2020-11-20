@@ -26,10 +26,6 @@ def V(x):  return np.pi * x** 2 *(3* Radio - x) / 3
 
 def f1(x):  return V(x) - ( V(2*Radio) * porcentaje )
 
-def f_prima(x):  return x * np.pi * (2 * Radio - x)
-
-def f_segunda(x): return 2 * np.pi * (Radio - x)
-
 print(sci.optimize.brentq(f1, lim_inf, lim_sup, full_output = True))
 
 # Derivada
