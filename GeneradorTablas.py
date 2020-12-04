@@ -115,9 +115,9 @@ def GeneraeConvGrafico(data, iteraciones, title_text, file_name):
     else: return
     
     for k in data:
-        x.append(k[0])
-        y1.append(k[3])
-        y2.append(k[4])
+        x.append(int(k[0]))
+        y1.append(float(k[3]))
+        y2.append(float(k[4]))
         
     fig, axs = plt.subplots(1, 2, figsize=(12, 4), sharey=False)
     
