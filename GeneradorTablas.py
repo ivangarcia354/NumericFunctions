@@ -124,7 +124,7 @@ def GeneraeConvGrafico(data, iteraciones, title_text, file_name):
     axs[0].scatter(x,y1)
     axs[0].set_title('lambda',fontsize=10)
     axs[0].set_xlabel('Iteraciones',fontsize=15)
-    axs[0].grid(False)
+    axs[0].grid(True)
     
     axs[1].scatter(x,y2)
     axs[1].set_title('convergencia P',fontsize=10)

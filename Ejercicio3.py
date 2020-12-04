@@ -6,8 +6,6 @@ padrones = 103887, 104181, 103839, 104606
 
 Radio = 4.25
 
-lim_inf = 4
-lim_sup = 6
 
 max_error = 1 * 10**(-13)
 
@@ -39,6 +37,7 @@ tb.Graficarfunciones(f1,f2,f_prima,f_segunda,Radio)
 #%%
 #MÉTODOS DE BUQUEDA DE RAICES
 funcion = f1
+FUNCTION_TAG= "_f1"
 
 matriz_semilla_1 = []
 iteraciones_1 = 0
@@ -54,14 +53,21 @@ iteraciones_NR = 0
 
 #%%
 #busqueda de semilla
+semilla = 0.9
+cota_semilla = Radio
+
+#para Bisección
+lim_inf = 0
+lim_sup = 2*Radio
+
+"""
 (matriz_semilla_1, iteraciones_1) = br.RaizBiseccion(funcion, lim_inf, lim_sup, ERROR_BISECCION)
 
 semilla = (matriz_semilla_1[iteraciones_1 - 1])[1]
 cota_semilla = (matriz_semilla_1[iteraciones_1 - 1])[2]
-#para secante
+"""
 
-#semilla = 2 * Radio	
-#cota_semilla = Radio *2 
+#para secante
 semilla_1 = semilla
 semilla_2 = semilla + cota_semilla
 
@@ -89,24 +95,24 @@ header = ["Iteración", "Resultado", "Error", "Lambda", "p"]
 
 matriz_biseccion.insert(0, header)
 
-tb.GenerarTabla(matriz_biseccion, iteraciones_biseccion, "Bisección con Error "+ str(max_error), "Bisección_graph_"+ str(max_error))
+tb.GenerarTabla(matriz_biseccion, iteraciones_biseccion, "Bisección con Error "+ str(max_error), "Bisección_graph_"+ str(max_error) + FUNCTION_TAG)
 matriz_biseccion.pop(0)
-tb.GeneraeConvGrafico(matriz_biseccion, iteraciones_biseccion, "Bisección convergencia", "Bisección_graph_convergenia"+ str(max_error))
+tb.GeneraeConvGrafico(matriz_biseccion, iteraciones_biseccion, "Bisección convergencia", "Bisección_graph_convergenia"+ str(max_error) + FUNCTION_TAG)
 
 matriz_secante.insert(0, header)
-tb.GenerarTabla(matriz_secante, iteraciones_secante, "Secante con Error " + str(max_error), "Secante_graph_"+ str(max_error))
-tb.GeneraeConvGrafico(matriz_secante, iteraciones_secante, "Secante convergencia", "Secante_graph_convergenia"+ str(max_error))
+tb.GenerarTabla(matriz_secante, iteraciones_secante, "Secante con Error " + str(max_error), "Secante_graph_"+ str(max_error) + FUNCTION_TAG)
+tb.GeneraeConvGrafico(matriz_secante, iteraciones_secante, "Secante convergencia", "Secante_graph_convergenia"+ str(max_error) + FUNCTION_TAG)
 
 matriz_PF.insert(0,header)
-tb.GenerarTabla(matriz_PF, iteraciones_PF, "PuntoFijo con Error " + str(max_error), "PuntoFijo_graph_"+ str(max_error)  + str(funcion))
-tb.GeneraeConvGrafico(matriz_PF, iteraciones_PF, "PuntoFijo convergencia","PuntoFijo_graph_convergencia"+ str(max_error) + str(funcion))
+tb.GenerarTabla(matriz_PF, iteraciones_PF, "PuntoFijo con Error " + str(max_error), "PuntoFijo_graph_"+ str(max_error)  + FUNCTION_TAG)
+tb.GeneraeConvGrafico(matriz_PF, iteraciones_PF, "PuntoFijo convergencia","PuntoFijo_graph_convergencia"+ str(max_error) + FUNCTION_TAG)
 
 matriz_NR.insert(0, header)
-tb.GenerarTabla(matriz_NR, iteraciones_NR, "NR con Error " + str(max_error), "NR_graph_"+ str(max_error)  + str(funcion))
-tb.GeneraeConvGrafico(matriz_NR, iteraciones_NR, "NR convergencia", "NR_graph_convergenia"+ str(max_error)  + str(funcion))
+tb.GenerarTabla(matriz_NR, iteraciones_NR, "NR con Error " + str(max_error), "NR_graph_"+ str(max_error)  + FUNCTION_TAG)
+tb.GeneraeConvGrafico(matriz_NR, iteraciones_NR, "NR convergencia", "NR_graph_convergenia"+ str(max_error)  + FUNCTION_TAG)
 
 matriz_NRM.insert(0,header)
-tb.GenerarTabla(matriz_NRM, iteraciones_NRM, "NR Modificado con Error " + str(max_error), "NrMod_graph"+ str(max_error)  + str(funcion))
-tb.GeneraeConvGrafico(matriz_NRM, iteraciones_NRM, "NR Modificado convergencia", "NRMod_graph_convergenia"+ str(max_error)  + str(funcion))
+tb.GenerarTabla(matriz_NRM, iteraciones_NRM, "NR Modificado con Error " + str(max_error), "NrMod_graph"+ str(max_error)  + FUNCTION_TAG)
+tb.GeneraeConvGrafico(matriz_NRM, iteraciones_NRM, "NR Modificado convergencia", "NRMod_graph_convergenia"+ str(max_error)  + FUNCTION_TAG)
 
 print("Se descargaron los archivos \".png\" en la carpeta actual")
