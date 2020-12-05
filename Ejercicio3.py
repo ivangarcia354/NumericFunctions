@@ -6,7 +6,7 @@ padrones = 103887, 104181, 103839, 104606
 
 Radio = 4.25
 
-max_error = 1 * 10**(-15)
+max_error = 1 * 10**(-13)
 
 
 
@@ -55,7 +55,7 @@ iteraciones_NR = 0
 lim_inf = 0
 lim_sup = 2*Radio
 
-semilla = 2
+semilla = 0.9
 cota_semilla = Radio
 """
 #para Bisección
@@ -72,7 +72,6 @@ semilla_2 = semilla + cota_semilla
 
 #%%Generación de matrices de iteraciones de los métodos
 
-
 (matriz_biseccion, iteraciones_biseccion) = br.RaizBiseccion(funcion, lim_inf, lim_sup, max_error)
 
 
@@ -85,15 +84,14 @@ semilla_2 = semilla + cota_semilla
 (matriz_NR, iteraciones_NR) = br.RaizNR(funcion, f_prima, max_error, semilla, cota_semilla)
 
 
-(matriz_NRM, iteraciones_NRM) = br.RaizNRmodificado(funcion, f_prima, f_segunda, max_error, semilla, cota_semilla)
 
+(matriz_NRM, iteraciones_NRM) = br.RaizNRmodificado(funcion, f_prima, f_segunda, max_error, semilla, cota_semilla)
 
 #%%Generación de gráficos
 print("Generándose los gráficos...espere porfavor\n")
 header = ["Iteración", "Resultado", "Error", "Lambda", "p"]
 
 matriz_biseccion.insert(0, header)
-
 tb.GenerarTabla(matriz_biseccion, iteraciones_biseccion, "Bisección con Error "+ str(max_error), "Bisección_graph_"+ str(max_error) + FUNCTION_TAG)
 matriz_biseccion.pop(0)
 tb.GeneraeConvGrafico(matriz_biseccion, iteraciones_biseccion, "Bisección convergencia", "Bisección_graph_convergenia"+ str(max_error) + FUNCTION_TAG)

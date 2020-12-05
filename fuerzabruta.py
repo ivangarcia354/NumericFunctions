@@ -2,7 +2,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-NUM_CANDADOS = 100000
+NUM_CANDADOS = 1000
 NUM_DIG_CONTRA = 4
 
 
